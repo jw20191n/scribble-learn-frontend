@@ -54,7 +54,11 @@ export default class SignUp extends Component {
                         password: this.state.passwordConfirmation
                     })
                 }).then(resp=>resp.json())
-                .then(data=> console.log(data))
+                .then(data=> {
+                    console.log(data);
+                    this.props.setCurrentUser(data)
+                    this.props.history.push('/admin')
+                })
             }
             
         }else{

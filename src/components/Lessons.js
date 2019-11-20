@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import LessonDetail from './LessonDetail';
 
 export default class CreateLesson extends Component {
     state={
         lessons: []
+    }
+
+    componentDidMount(){
+        this.getLessons();
     }
 
     getLessons = () => {
@@ -23,14 +28,18 @@ export default class CreateLesson extends Component {
         }
     }
 
+
+
     printLessons = () => {
         if(this.state.lessons.length>0){
-            return this.state.lessons.map((lesson,i) => {
+            return this.state.lessons.map((lesson,i) => { 
                 return(
                     <div className="card" key={i}>
                         <p>Name: {lesson.name}</p>
                         <p>Passcode: {lesson.passcode}</p>
                         <p>Description: {lesson.description}</p>
+                        {/* <button type="button" className="btn btn-secondary" onClick={()=>this.openDetail(lesson.id)}>detail</button> */}
+                        <LessonDetail id={lesson.id}/>
                     </div>
                 )
             })
@@ -39,11 +48,14 @@ export default class CreateLesson extends Component {
         }
     }
 
-    componentDidMount(){
-        this.getLessons();
-    }
+    // openDetail = (id) => {
+    //     console.log(id);
+    //     return <LessonDetail id={id}/>
+    // }
     
     render() {
-        return(this.printLessons())
+        return(
+            this.printLessons()
+        )
     }
 }
