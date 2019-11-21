@@ -24,3 +24,7 @@
 .form-ul{
   list-style-type: none;
 }
+
+#canvas{
+  border: 1px solid grey;
+}

@@ -14,15 +14,19 @@ export default class Login extends Component {
     }
 
     handleChange = (event) => {
-        let target = event.target;
-        this.setState({
-            [target.name]:target.value
-        })
+        if(event.target.type==="text"){
+            this.setState({
+                [event.target.name]:event.target.value
+            })
+        }else{
+            this.setState({
+                type:event.target.value
+            })
+        }
     }
 
     handleSubmit = (event) =>  { 
        event.preventDefault(); 
-
        if(this.state.type === "student"){
         fetch('http://localhost:3001/students')
         .then(resp => resp.json())
@@ -37,10 +41,12 @@ export default class Login extends Component {
     findUser = (users) => { 
        let foundUser = users.find(user => user.username === this.state.username )
        if (foundUser) {
+        //    console.log(foundUser)
+        //     console.log(this.state.type)
             this.props.setCurrentUser(foundUser)
-                if(this.state.type === "stduent"){
+                if(this.state.type === "student"){
                     this.props.history.push('/student')
-                }else{
+                }else if (this.state.type === "admin"){
                     this.props.history.push('/admin')
                 }
        } else { 

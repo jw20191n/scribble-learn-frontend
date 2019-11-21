@@ -11,17 +11,15 @@ export default class CreateLesson extends Component {
     handleChange = (event) => {
         if(event.target.name === "words"){
             let wordArray = event.target.value.split(",");
-            let newArray = wordArray.map(word=>word.trim());
-
+            // console.log(wordArray)
             this.setState({
-                words: newArray
+                words: wordArray
             })
         }else{
             this.setState({
                 [event.target.name]:event.target.value
             })
         }
-        // console.log(this.state)
     }
 
     handleSubmit = (event) => {
@@ -64,7 +62,7 @@ export default class CreateLesson extends Component {
             })
         }).then(resp=>resp.json())
         .then(data=> console.log(data))
- 
+
     }
     
     render() {

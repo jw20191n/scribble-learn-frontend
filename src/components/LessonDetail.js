@@ -28,13 +28,12 @@ export default class LessonDetail extends Component {
 
     printWords = () => {
         let div=document.getElementById(this.props.id);
-        console.log(this.props.id, this.state.words);
+        // console.log(this.props.id, this.state.words);
 
         if(this.state.words.length>0){
             // console.log(this.props.id, this.state.words);
-         
             this.state.words.forEach(word=>{
-                div.innerText += word.text;
+                div.innerText += `${word.text} `;
             })
         }
     }
