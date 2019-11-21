@@ -22,6 +22,7 @@ export default class Chat extends Component {
         }) 
     }
 
+
     handleSubmit = (event) => {
         event.preventDefault();
         let data = {

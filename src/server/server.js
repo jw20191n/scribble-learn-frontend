@@ -9,8 +9,8 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.on('mouse', mouseMsg);
-
     socket.on('submit', chatMsg);
+    socket.on('adduser', userInfo);
 
     function chatMsg(data){
         socket.broadcast.emit('submit', data);
@@ -19,6 +19,11 @@ io.on('connection', function(socket){
 
     function mouseMsg(data){
         socket.broadcast.emit('mouse', data);
+        console.log(data)
+    }
+
+    function userInfo(data){
+        socket.broadcast.emit('adduser', data);
         console.log(data)
     }
 })

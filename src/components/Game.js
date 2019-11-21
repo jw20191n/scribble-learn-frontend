@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Canvas from './Canvas';
 import Toolbar from './Toolbar';
 import Chat from  './Chat';
+import io from 'socket.io-client';
+
+let socket;
 
 // import P5Wrapper from 'react-p5-wrapper';
 // import withUnmounted from '@ishawnwang/withunmounted';
@@ -12,6 +15,7 @@ class Game extends Component {
 
     state = {
         currentUser: null,
+        users: [],
         color: "black",
         size: 10,
         host: 1,
@@ -21,9 +25,45 @@ class Game extends Component {
 
     componentDidMount(){
         this.setState({
-            currentUser:this.props.currentUser 
+            currentUser:this.props.currentUser,
+            users: [...this.state.users, this.props.currentUser]
         })
-        // console.log(this.props.currentUser)
+
+        if(!socket){
+            socket = io(':3002')
+            socket.on('adduser', this.addUser)
+        } 
+
+        let data = {
+            user: this.props.currentUser
+         }
+         socket.emit('adduser', data);
+         
+    }
+
+    componentDidUpdate(){
+        this.printUserList();
+    }
+
+    addUser = (data) => {
+        this.setState({
+            users: [...this.state.users, data.user]
+        })
+    }
+
+    printUserList = () => {
+        let div = document.getElementById('user-list');
+        div.innerHTML = '';
+        console.log(this.state.users);
+        
+        this.state.users.forEach(user=>{
+            if( user === null ){
+                div.innerHTML += `<p>noname</p>`
+            }else{
+                div.innerHTML += `<p>${user.username}</p>`
+            }
+        })
+
     }
 
     greetings = () => {
@@ -64,6 +104,7 @@ class Game extends Component {
                 <div className="d-flex flex-row">
                     <div className="game-div">
                         Student List
+                        <div id="user-list"></div>
                     </div>
                     <div className="game-div">
                         <Canvas {...this.state} />
