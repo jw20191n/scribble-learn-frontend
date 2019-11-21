@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import Canvas from './Canvas';
 import Toolbar from './Toolbar';
 import Chat from  './Chat';
-import ChatBox from  './ChatBox';
+
 // import P5Wrapper from 'react-p5-wrapper';
-import withUnmounted from '@ishawnwang/withunmounted';
+// import withUnmounted from '@ishawnwang/withunmounted';
 
 class Game extends Component {
 
-    hasUnmounted = false;
+    // hasUnmounted = false;
 
     state = {
+        currentUser: null,
         color: "black",
         size: 10,
         host: 1,
@@ -19,7 +20,10 @@ class Game extends Component {
     }
 
     componentDidMount(){
-
+        this.setState({
+            currentUser:this.props.currentUser 
+        })
+        // console.log(this.props.currentUser)
     }
 
     greetings = () => {
@@ -55,16 +59,24 @@ class Game extends Component {
  
     render() {
         return (
-            <div>
-                {this.greetings()}
-                <Canvas {...this.state} user={this.props.currentUser}/>
-                <Toolbar changeColor={this.changeColor} changeWidth={this.changeWidth} reset={this.reset}/>
-                <Chat />
-                <ChatBox user={this.props.currentUser}/>
-  
+            <div className="d-flex flex-column">
+                <div className="game-div">{this.greetings()}</div>
+                <div className="d-flex flex-row">
+                    <div className="game-div">
+                        Student List
+                    </div>
+                    <div className="game-div">
+                        <Canvas {...this.state} />
+                        <Toolbar changeColor={this.changeColor} changeWidth={this.changeWidth} reset={this.reset}/>
+                    </div>
+                    <div className="game-div">
+                        <Chat {...this.state}/>
+                    </div>
+                </div>
+
             </div>
         )
     }
 }
 
-export default withUnmounted(Game);
+export default Game;

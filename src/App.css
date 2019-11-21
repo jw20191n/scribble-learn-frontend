@@ -28,3 +28,16 @@
 #canvas{
   border: 1px solid grey;
 }
+
+.game-div{
+  margin: 20px;
+}
+
+.chatInfo{
+  height: 300px;
+  background-color: whitesmoke;
+}
+
+form.chatForm{
+  margin-top:20px;
+}

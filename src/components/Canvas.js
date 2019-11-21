@@ -13,8 +13,6 @@ class Canvas extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.currentUser);
-        
         this.initiateCanvas();
 
         if(!socket){
@@ -54,8 +52,8 @@ class Canvas extends Component {
 
     initiateCanvas = () => {
         const canvas = this.refs.canvas;
-        canvas.width = window.innerWidth*0.95;
-        canvas.height = window.innerHeight*0.7;
+        canvas.width = window.innerWidth*0.5;
+        canvas.height = window.innerHeight*0.6;
    
         const c = canvas.getContext('2d');
         c.lineJoin = 'round';

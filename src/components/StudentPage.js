@@ -37,8 +37,9 @@ export default class StudentPage extends Component {
                 })
             }).then(resp=>resp.json())
             .then(data=> {
-                console.log(data);
-                this.props.setCurrentUser(data);
+                // console.log(data);
+                // console.log(this.props.currentUser)
+                // this.props.setCurrentUser(data);
             })
             // this.getWords();
             this.props.history.push('/game');

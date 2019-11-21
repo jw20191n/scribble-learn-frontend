@@ -9,18 +9,18 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.on('mouse', mouseMsg);
-    socket.on('submit', chatMsg);
 
-    function mouseMsg(data){
-        socket.broadcast.emit('mouse', data);
-        console.log(data)
-    }
+    socket.on('submit', chatMsg);
 
     function chatMsg(data){
         socket.broadcast.emit('submit', data);
         console.log(data)
     }
 
+    function mouseMsg(data){
+        socket.broadcast.emit('mouse', data);
+        console.log(data)
+    }
 })
 
 http.listen(3002, function(){
