@@ -7,6 +7,7 @@ class Canvas extends Component {
 
     color = "black";
     size = "10";
+    drawing = false;
 
     componentDidMount(){
         this.initiateCanvas();
@@ -14,6 +15,7 @@ class Canvas extends Component {
         if(!socket){
             socket = io(':3002')
             socket.on('draw_line', this.newDrawing)
+            socket.on('current_user', this.setDrawer);
         } 
     }
 
@@ -21,7 +23,15 @@ class Canvas extends Component {
         // c.clearRect(0,0, canvas.width, canvas.height);
     }
 
-     newDrawing = (data) => {
+    setDrawer = (data) => {
+        if(data.drawer !== null && this.props.currentUser){
+            if (data.drawer.id === this.props.currentUser.id){
+                this.drawing = true;
+            }
+        }
+    }
+
+    newDrawing = (data) => {
         const canvas = document.getElementById('canvas');
         const c = canvas.getContext('2d');
         c.lineJoin = 'round';
@@ -61,6 +71,10 @@ class Canvas extends Component {
         // console.log(this.color, this.size);
 
         const mainLoop = () => {
+            if(!this.drawing){
+                mouse.click = false;
+            }
+            
             if (mouse.click && mouse.move && mouse.pos_prev) {
                 socket.emit('draw_line', { line: [ mouse.pos, mouse.pos_prev, this.color, this.size] });
                 mouse.move = false;

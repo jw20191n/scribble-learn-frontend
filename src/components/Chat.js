@@ -8,10 +8,13 @@ export default class Chat extends Component {
         msg: ""
     }
 
+    drawing = false;
+
     componentDidMount(){
         if(!socket){
             socket = io(':3002');
             socket.on('chat', this.printChat);
+            socket.on('current_user', this.setDrawer);
         } 
     }
 
@@ -21,18 +24,32 @@ export default class Chat extends Component {
         }) 
     }
 
+    setDrawer = (data) => {
+        if(data.drawer !== null && this.props.currentUser){
+            if (data.drawer.id === this.props.currentUser.id){
+                this.drawing = true;
+            }
+        }
+    }
+
     handleSubmit = (event) => {
         event.preventDefault();
 
-        let data = {
-           msg: this.state.msg,
-           user: this.props.currentUser
+        if(!this.drawing){
+            let data = {
+                msg: this.state.msg,
+                user: this.props.currentUser
+             }
+             socket.emit('chat', data);
+     
+             this.setState({
+                 msg: ""
+             })
+        }else{
+            alert("You are drawing!!can't talk!!")
         }
-        socket.emit('chat', data);
 
-        this.setState({
-            msg: ""
-        })
+        
     }
 
     printChat = (data) => {

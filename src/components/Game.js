@@ -20,6 +20,7 @@ class Game extends Component {
         if(!socket){
             socket = io(':3002')
             // socket.on('print_user', this.addUser)
+            socket.on('current_user', this.printWord);
         } 
 
         if(this.props.currentUser){
@@ -30,16 +31,20 @@ class Game extends Component {
         }
     }
 
-    // addUser = (data) => {
-    //     console.log(data);
-    //     let div = document.getElementById('user-list');
-    //     div.innerHTML = "";
-    //     data.forEach(user => {
-    //         if( user !== null ){
-    //             div.innerHTML += `<p>${user.username}</p>`
-    //         }
-    //    })  
-    // }
+    printWord = (data) => {
+        console.log(data);
+        let div = document.getElementById('current-word');
+        if(data.drawer !==null && this.props.currentUser){
+            if(data.drawer.id === this.props.currentUser.id){
+                alert("You are drawing '" + data.word + "'");
+                div.innerText = data.word;
+            }else{
+                for(let i=0;i<data.word.length;i++){
+                    div.innerText += "  __  ";
+                }
+            }
+        }
+    }
 
     greetings = () => {
         if (this.props.currentUser){
@@ -59,6 +64,7 @@ class Game extends Component {
                         <List />
                     </div>
                     <div className="game-div">
+                        <div id="current-word"></div>
                         <Canvas {...this.state} />
                     </div>
                     <div className="game-div">
