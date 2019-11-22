@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import withUnmounted from '@ishawnwang/withunmounted';
 
 let socket;
 
 class Canvas extends Component {
-    hasUnmounted = false;
 
-    state = {
-        x:0,
-        y:0
-    }
+    color = "black";
+    size = "10";
 
     componentDidMount(){
         this.initiateCanvas();
 
         if(!socket){
             socket = io(':3002')
-            socket.on('mouse', this.newDrawing)
+            socket.on('draw_line', this.newDrawing)
         } 
     }
 
     componentDidUpdate(){
-        // if(this.props.clear){
-        //     const canvas = document.getElementById('canvas');
-        //     const c = canvas.getContext('2d');
-        //     c.clearRect(0,0, canvas.width, canvas.height);
-        // }
+        // c.clearRect(0,0, canvas.width, canvas.height);
     }
 
      newDrawing = (data) => {
@@ -34,90 +26,91 @@ class Canvas extends Component {
         const c = canvas.getContext('2d');
         c.lineJoin = 'round';
         c.lineCap = 'round';
+        let line = data.line;
         c.beginPath();
-        c.moveTo(this.state.x, this.state.y);
-        c.lineTo(data.x, data.y);
+        c.strokeStyle = line[2];
+        c.lineWidth = line[3];
+        c.moveTo(line[0].x, line[0].y);
+        c.lineTo(line[1].x, line[1].y);
         c.stroke();
-        c.globalAlpha = data.value;
-        c.strokeStyle = data.color;
-        c.lineWidth = data.size;
-        this.setState({
-            x: data.x,
-            y: data.y
-        })
+    }
 
-        console.log("you are listening")
+    changeColor = (color) => {
+        this.color = color
+    }
+
+    changeWidth = (size) => {
+        this.size = parseInt(size);
     }
     
-
     initiateCanvas = () => {
         const canvas = this.refs.canvas;
         canvas.width = window.innerWidth*0.5;
         canvas.height = window.innerHeight*0.6;
-   
         const c = canvas.getContext('2d');
         c.lineJoin = 'round';
         c.lineCap = 'round';
-        let isDrawing = false;
-        // let lastX = 0;
-        // let lastY = 0;
-        let draw = (e) => {
-            // stop the function if they are not mouse down
-            if(isDrawing){
-                // console.log(e.offsetX)
-                c.strokeStyle = this.props.color;
-                c.lineWidth = this.props.size;
-                c.beginPath();
-                c.moveTo(this.state.x, this.state.y);
-                c.lineTo(e.offsetX, e.offsetY);
-                c.stroke();
-                c.globalAlpha = 1.0;
-                this.setState({
-                    x: e.offsetX,
-                    y: e.offsetY
-                })
-                console.log('you are drawing')
-                let data = {
-                    x: e.offsetX,
-                    y: e.offsetY,
-                    color: this.props.color,
-                    size: this.props.size,
-                    value: 1.0
-                }
-                socket.emit('mouse', data);
-            }else{
-                let data = {
-                    // x: e.offsetX,
-                    // y: e.offsetY,
-                    color: this.props.color,
-                    size: this.props.size,
-                    value: 0.0
-                }
-                socket.emit('mouse', data);
+
+        let mouse = { 
+            click: false,
+            move: false,
+            pos: {x:0, y:0},
+            pos_prev: false,
+        };
+
+        // console.log(this.color, this.size);
+
+        const mainLoop = () => {
+            if (mouse.click && mouse.move && mouse.pos_prev) {
+                socket.emit('draw_line', { line: [ mouse.pos, mouse.pos_prev, this.color, this.size] });
+                mouse.move = false;
             }
-          }
-
-
+            mouse.pos_prev = {x: mouse.pos.x, y: mouse.pos.y};
+            setTimeout(mainLoop, 25);
+         }
+        mainLoop();
+        
+        //event listeners
         canvas.addEventListener('mousedown', (e) => {
-            isDrawing=true
-            this.setState({
-                x: e.offsetX,
-                y: e.offsetY
-            })
+            mouse.click = true;
         });
 
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', () => isDrawing=false);
-        canvas.addEventListener('mouseout', () => isDrawing=false);
+        canvas.addEventListener('mousemove', (e)=>{
+            mouse.pos.x = e.offsetX;
+            mouse.pos.y = e.offsetY;
+            mouse.move = true;
+        });
+
+        canvas.addEventListener('mouseup', () => mouse.click = false);
+        canvas.addEventListener('mouseout', () => mouse.click = false);
     }
 
     render() {
         return (
             <div>
                 <canvas ref="canvas" id="canvas"></canvas>
+                <div id="toolbar">
+                <div>
+                    paint color
+                    <button className="color-tool" onClick={()=>this.changeColor('yellow')}>Yellow</button>
+                    <button className="color-tool" onClick={()=>this.changeColor('green')}>Green</button>
+                    <button className="color-tool" onClick={()=>this.changeColor('hotpink')}>Hot Pink</button>
+                    <button className="color-tool" onClick={()=>this.changeColor('black')}>black</button>
+                </div>
+                <div>
+                    fill style
+                    <button className="color-tool" onClick={()=>this.changeWidth(20)}>Thick</button>
+                    <button className="color-tool" onClick={()=>this.changeWidth(10)}>Normal</button>
+                    <button className="color-tool" onClick={()=>this.changeWidth(3)}>Thin</button>
+                </div>
+                <div>
+                    eraser
+                    <button className="color-tool" onClick={()=>this.changeColor('white')}>Eraser</button>
+                </div>
+            </div>
             </div>
         )
     }
 }
 
-export default withUnmounted(Canvas);
+export default Canvas;

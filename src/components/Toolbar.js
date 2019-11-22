@@ -23,7 +23,7 @@ export default class Toolbar extends Component {
                 <div>
                     eraser
                     <button className="color-tool" onClick={()=>this.props.changeColor('white')}>Eraser</button>
-                    <button className="color-tool" onClick={()=>this.props.reset()}>Clear</button>
+                    
                 </div>
             </div>
         )

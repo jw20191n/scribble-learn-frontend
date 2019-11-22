@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Canvas from './Canvas';
-import Toolbar from './Toolbar';
+// import Toolbar from './Toolbar';
 import Chat from  './Chat';
 import io from 'socket.io-client';
 
@@ -20,7 +20,6 @@ class Game extends Component {
         size: 10,
         host: 1,
         words: ["apple", "pear", "banana"],
-        clear: false
     }
 
     componentDidMount(){
@@ -54,7 +53,6 @@ class Game extends Component {
     printUserList = () => {
         let div = document.getElementById('user-list');
         div.innerHTML = '';
-        console.log(this.state.users);
         
         this.state.users.forEach(user=>{
             if( user === null ){
@@ -73,29 +71,6 @@ class Game extends Component {
             return <p>game room </p>  
         }
     }
-
-    changeColor = (drawingColor) =>{
-        this.setState({
-            color: drawingColor
-        })
-        // console.log(this.state.color)
-    }
-
-    changeWidth = (newSize) => {
-        this.setState({
-            size: newSize
-        })
-    }
-
-    reset = () => {
-        // const canvas = document.getElementById('canvas');
-        // const c = canvas.getContext('2d');
-        // c.clearRect(0,0, canvas.width, canvas.height);
-        this.setState({
-            clear: true
-        })
-        console.log(this.state.clear)
-    }
  
     render() {
         return (
@@ -108,7 +83,6 @@ class Game extends Component {
                     </div>
                     <div className="game-div">
                         <Canvas {...this.state} />
-                        <Toolbar changeColor={this.changeColor} changeWidth={this.changeWidth} reset={this.reset}/>
                     </div>
                     <div className="game-div">
                         <Chat {...this.state}/>

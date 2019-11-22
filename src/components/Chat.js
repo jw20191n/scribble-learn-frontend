@@ -11,7 +11,7 @@ export default class Chat extends Component {
     componentDidMount(){
         if(!socket){
             socket = io(':3002')
-            socket.on('submit', this.handleData)
+            socket.on('chat', this.handleData)
         } 
 
     }
@@ -29,7 +29,7 @@ export default class Chat extends Component {
            msg: this.state.msg,
            user: this.props.currentUser
         }
-        socket.emit('submit', data);
+        socket.emit('chat', data);
         // console.log(data)
         let div = document.getElementsByClassName("chatInfo")[0]
         if(this.props.currentUser){
