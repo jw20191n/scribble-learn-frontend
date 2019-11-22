@@ -10,10 +10,9 @@ export default class Chat extends Component {
 
     componentDidMount(){
         if(!socket){
-            socket = io(':3002')
-            socket.on('chat', this.handleData)
+            socket = io(':3002');
+            socket.on('chat', this.printChat);
         } 
-
     }
 
     handleChange = (event) => {
@@ -22,25 +21,21 @@ export default class Chat extends Component {
         }) 
     }
 
-
     handleSubmit = (event) => {
         event.preventDefault();
+
         let data = {
            msg: this.state.msg,
            user: this.props.currentUser
         }
         socket.emit('chat', data);
-        // console.log(data)
-        let div = document.getElementsByClassName("chatInfo")[0]
-        if(this.props.currentUser){
-            div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
-        }else{
-            div.innerHTML += `<p>noname: ${data.msg}</p>`
-        }
+
+        this.setState({
+            msg: ""
+        })
     }
 
-    handleData = (data) => {
-        // console.log(data.user);
+    printChat = (data) => {
         let div = document.getElementsByClassName("chatInfo")[0]
         if(data.user){
             div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
