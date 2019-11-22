@@ -9,6 +9,10 @@ class Canvas extends Component {
     size = "10";
     drawing = false;
 
+    state = {
+        sessionEnd: false
+    }
+
     componentDidMount(){
         this.initiateCanvas();
 
@@ -16,19 +20,35 @@ class Canvas extends Component {
             socket = io(':3002')
             socket.on('draw_line', this.newDrawing)
             socket.on('current_user', this.setDrawer);
+            socket.on('chat', this.checkSession);
         } 
     }
 
     componentDidUpdate(){
-        // c.clearRect(0,0, canvas.width, canvas.height);
+        console.log('canvas updated')
+        if(this.state.sessionEnd){
+            const canvas = document.getElementById('canvas');
+            const c = canvas.getContext('2d');
+            c.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    checkSession = (data) => {
+        // this.session = data.session_status;
+        // this.setState({
+        //     sessionEnd: data.session_status
+        // })
+        // console.log(this.state.sessionEnd);
     }
 
     setDrawer = (data) => {
+        console.log(data.drawer)
         if(data.drawer !== null && this.props.currentUser){
             if (data.drawer.id === this.props.currentUser.id){
                 this.drawing = true;
             }
         }
+        // console.log(this.drawing);
     }
 
     newDrawing = (data) => {

@@ -18,6 +18,10 @@ export default class Chat extends Component {
         } 
     }
 
+    componentDidUpdate(){
+        // console.log()
+    }
+
     handleChange = (event) => {
         this.setState({
             msg: event.target.value

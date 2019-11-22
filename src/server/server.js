@@ -11,15 +11,13 @@ server.listen(3002);
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:3002");
 
-
 // array of all lines drawn
 var line_history = [];
+let currentDrawer = null;
 var users = [];
 let currentWord = "apple";
-// let words = ["apple", "pear", "banana"];
-let time = 10;
-let currentDrawer = null;
-let sessionStart = false;
+let words = ["apple", "pear", "banana"];
+var index = 0;
 let sessionEnd = false;
 
 // event-handler for new incoming connections
@@ -32,7 +30,7 @@ io.on('connection', function (socket) {
    }
    socket.emit('print_user', users);
    socket.emit('current_user', { drawer: currentDrawer, word: currentWord});
-   socket.emit('session_status', sessionEnd);
+   
 
 
    //canvas drawing communication
@@ -48,26 +46,42 @@ io.on('connection', function (socket) {
    //print the list of users in game room
    socket.on('print_user', function(data){
        users.push(data.user);
-    //    console.log(data);
-       io.emit('print_user',  users )
+       io.emit('print_user',  users)
        currentDrawer = users[0];
-        console.log(currentDrawer);
+        // console.log(users, currentDrawer);
+        // if(sessionEnd === true){
+        //     sessionEnd = false;
+        // }
+
+    //    if (users.length >= 2){
+    //        currentWord = words[Math.floor(Math.random()*words.length)];
+    //        let index = words.indexOf(currentWord);
+    //        words.splice(index, 1);
+    //        console.log(words);
+    //    }
    })
 
 
    //print chat
    socket.on('chat', function(data){
        if(data.msg === currentWord ){
-            io.emit('chat', { user: data.user, msg: "guessed it right"});
+            console.log('word guessed right');
+            // usersGuessed.push(data.user);
+            sessionEnd = true;
+            console.log('session ended');
+            io.emit('chat', { user: data.user, 
+                              msg: "guessed it right", 
+                              session_status: sessionEnd});          
+
        } else{
             io.emit('chat', data);
        }             
    })
-
    
    //when client disconnets
    socket.on('disconnect', function(){
     console.log('user disconnected');
     line_history = [];
+    users = [];
   });
 });

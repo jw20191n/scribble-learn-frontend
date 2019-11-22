@@ -6,7 +6,7 @@ export default class Login extends Component {
     state = { 
         username: "",
         password: "",
-        type: "admin"
+        type: "student"
     }
 
     componentDidMount(){
@@ -69,8 +69,8 @@ export default class Login extends Component {
                     </li>
                     <li>
                         <select name="type" onChange={this.handleChange}>
-                            <option value="admin">Admin</option>
                             <option value="student">Student</option>
+                            <option value="admin">Admin</option>
                         </select>
                     </li>
                     <li>

@@ -9,32 +9,47 @@ let socket;
 class Game extends Component {
 
     state = {
-        currentUser: null
+        currentUser: null,
+        // sessionEnd: false,
+        // users: []
     }
 
     componentDidMount(){
         this.setState({
-            currentUser:this.props.currentUser
+            currentUser:this.props.currentUser,
         })
 
         if(!socket){
             socket = io(':3002')
-            // socket.on('print_user', this.addUser)
+            // socket.on('print_user', this.setUsers)
             socket.on('current_user', this.printWord);
+            // socket.on('chat', this.checkSession);
         } 
-
-        if(this.props.currentUser){
-            let data = {
-                user: this.props.currentUser
-            }
-            socket.emit('print_user', data); 
-        }
     }
 
+    componentDidUpdate(){
+        console.log('game updated');
+    }
+
+    // checkSession = (data) => {
+    //     this.setState({
+    //         sessionEnd: data.session_status
+    //     })
+    //     // console.log(this.state.sessionEnd);
+    // }
+
+    // setUsers = (data) => {
+    //     this.setState({
+    //         users: data
+    //     })
+    //     console.log(this.state.users);
+    // } 
+
     printWord = (data) => {
-        console.log(data);
         let div = document.getElementById('current-word');
+        div.innerText = "";
         if(data.drawer !==null && this.props.currentUser){
+            // console.log(data.drawer);
             if(data.drawer.id === this.props.currentUser.id){
                 alert("You are drawing '" + data.word + "'");
                 div.innerText = data.word;
