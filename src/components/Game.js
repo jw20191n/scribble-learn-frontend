@@ -46,17 +46,20 @@ class Game extends Component {
     printWord = (data) => {
         let div = document.getElementById('current-word');
         div.innerText = "";
-
-        if(data.drawer !==null && this.props.currentUser){
-            // console.log(data.drawer);
-            if(data.drawer.id === this.props.currentUser.id){
-                alert("You are drawing '" + data.word + "'");
-                div.innerText = data.word;
-            }else{
-                for(let i=0;i<data.word.length;i++){
-                    div.innerText += "  __  ";
+        if(!data.game_status){
+            if(data.drawer !==null && this.props.currentUser){
+                // console.log(data.drawer);
+                if(data.drawer.id === this.props.currentUser.id){
+                    alert("You are drawing '" + data.word + "'");
+                    div.innerText = data.word;
+                }else{
+                    for(let i=0;i<data.word.length;i++){
+                        div.innerText += "  __  ";
+                    }
                 }
             }
+        }else{
+            alert('gamee is over');
         }
     }
 

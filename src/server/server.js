@@ -15,11 +15,15 @@ console.log("Server running on 127.0.0.1:3002");
 var line_history = [];
 let currentDrawer = null;
 var users = [];
-let currentWord = "";
 let words = ["apple", "pear", "banana"];
 let sessionEnd = false;
 var index = 0;
 let arrayIndex = 0;
+var gameover = false;
+
+let currentWord = words[Math.floor(Math.random() * words.length)];
+arrayIndex = words.indexOf(currentWord);
+words.splice(arrayIndex, 1);
 
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
@@ -30,12 +34,9 @@ io.on('connection', function (socket) {
       socket.emit('draw_line', { line: line_history[i] } );
    }
    socket.emit('print_user', users);
-
-   currentWord = words[Math.floor(Math.random() * words.length)];
-   arrayIndex = words.indexOf(currentWord);
-   words.splice(arrayIndex, 1);
-
    socket.emit('current_user', { drawer: currentDrawer, word: currentWord});
+
+   currentDrawer = users[index];
 
    //canvas drawing communication
    // add handler for message type "draw_line".
@@ -51,7 +52,7 @@ io.on('connection', function (socket) {
    socket.on('print_user', function(data){
        users.push(data.user);
        io.emit('print_user',  users)
-       currentDrawer = users[index];
+
    })
 
 
@@ -66,19 +67,31 @@ io.on('connection', function (socket) {
                 index = 0;
             }
             currentDrawer = users[index];
-            currentWord = "banana";
+            sessionEnd = true;
+
+            if(words.length>0){
+                currentWord = words[Math.floor(Math.random() * words.length)];
+                arrayIndex = words.indexOf(currentWord);
+                words.splice(arrayIndex, 1);
+                console.log(words);
+            }else{
+                gameover = true;
+            }
+            
             line_history = [];
-            for (var i in line_history) {
-                socket.emit('draw_line', { line: line_history[i] } );
-             }
+
              socket.emit('print_user', users);
              io.emit('chat', { user: data.user, msg: "guessed it right"}); 
-             io.emit('current_user', { drawer: currentDrawer, word: currentWord});  
+             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, session_end: sessionEnd});  
 
             console.log(currentDrawer);
        } else{
             io.emit('chat', data);
        }             
+   })
+
+   socket.on('session_restart', function(data){
+        sessionEnd = false;
    })
    
    //when client disconnets

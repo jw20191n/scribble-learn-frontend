@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import { Server } from 'http';
 
 let socket;
 
@@ -34,7 +35,7 @@ class Canvas extends Component {
     }
 
     setDrawer = (data) => {
-        console.log(data.drawer)
+        // console.log(data.drawer)
         if(data.drawer !== null && this.props.currentUser){
             if (data.drawer.id === this.props.currentUser.id){
                 this.drawing = true;
@@ -42,7 +43,13 @@ class Canvas extends Component {
                 this.drawing = false;
             }
         }
-        console.log(this.drawing);
+
+        if(data.session_end){
+            const canvas = document.getElementById('canvas');
+            const c = canvas.getContext('2d');
+            c.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        socket.emit('restart_session', { sessionEnd: false });
     }
 
     newDrawing = (data) => {
