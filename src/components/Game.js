@@ -9,9 +9,7 @@ let socket;
 class Game extends Component {
 
     state = {
-        currentUser: null,
-        // sessionEnd: false,
-        // users: []
+        currentUser: null
     }
 
     componentDidMount(){
@@ -48,6 +46,7 @@ class Game extends Component {
     printWord = (data) => {
         let div = document.getElementById('current-word');
         div.innerText = "";
+
         if(data.drawer !==null && this.props.currentUser){
             // console.log(data.drawer);
             if(data.drawer.id === this.props.currentUser.id){

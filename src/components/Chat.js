@@ -32,6 +32,8 @@ export default class Chat extends Component {
         if(data.drawer !== null && this.props.currentUser){
             if (data.drawer.id === this.props.currentUser.id){
                 this.drawing = true;
+            }else{
+                this.drawing = false;
             }
         }
     }

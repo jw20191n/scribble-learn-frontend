@@ -20,7 +20,7 @@ class Canvas extends Component {
             socket = io(':3002')
             socket.on('draw_line', this.newDrawing)
             socket.on('current_user', this.setDrawer);
-            socket.on('chat', this.checkSession);
+            // socket.on('chat', this.checkSession);
         } 
     }
 
@@ -33,22 +33,16 @@ class Canvas extends Component {
         }
     }
 
-    checkSession = (data) => {
-        // this.session = data.session_status;
-        // this.setState({
-        //     sessionEnd: data.session_status
-        // })
-        // console.log(this.state.sessionEnd);
-    }
-
     setDrawer = (data) => {
         console.log(data.drawer)
         if(data.drawer !== null && this.props.currentUser){
             if (data.drawer.id === this.props.currentUser.id){
                 this.drawing = true;
+            }else{
+                this.drawing = false;
             }
         }
-        // console.log(this.drawing);
+        console.log(this.drawing);
     }
 
     newDrawing = (data) => {
