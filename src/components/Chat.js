@@ -62,6 +62,7 @@ export default class Chat extends Component {
         let div = document.getElementsByClassName("chatInfo")[0]
         if(data.user){
             div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
+
         }else{
             div.innerHTML += `<p>noname: ${data.msg}</p>`
         }

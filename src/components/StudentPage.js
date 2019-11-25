@@ -40,7 +40,7 @@ export default class StudentPage extends Component {
                 <div >
                     <h1>Welcome, {this.props.currentUser.username}!</h1>
                     <div id="student-list"></div>
-                    <NavLink to="/game" exact>start game</NavLink>
+                    <NavLink to="/game" exact >ready to join class</NavLink>
                 </div>
             )
         }else{

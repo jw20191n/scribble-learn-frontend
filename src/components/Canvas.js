@@ -26,7 +26,7 @@ class Canvas extends Component {
     }
 
     componentDidUpdate(){
-        console.log('canvas updated')
+        // console.log('canvas updated')
         if(this.state.sessionEnd){
             const canvas = document.getElementById('canvas');
             const c = canvas.getContext('2d');

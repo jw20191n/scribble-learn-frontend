@@ -9,19 +9,22 @@ export default class Timer extends Component {
 
         if(!socket){
             socket = io(':3002')
-            // socket.on('print_timer', this.printTimer)
+            socket.on('time_left', this.getTimeLeft);
         } 
     }
 
-    // addUser = (data) => {
-    //     let div = document.getElementById('timer');
-    //     div.innerHTML = data;
-    // }
+    getTimeLeft = (data) => {
+        let div = document.getElementById('timer');
+        if(div){
+            div.innerText = data.seconds;
+        }
+    }
 
     render() {
         return (
             <div className="game-div">
                 <div id="timer">
+                    
                 </div>
             </div>
         )
