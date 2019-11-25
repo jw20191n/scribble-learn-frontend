@@ -23,6 +23,7 @@ var gameover = false;
 let userTimeout = [];
 let seconds = 15;
 
+let wordGuessed = {}
 
 //set first currentWord
 let currentWord = words[Math.floor(Math.random() * words.length)];
@@ -109,6 +110,8 @@ io.on('connection', function (socket) {
    socket.on('chat', function(data){
        if(data.msg === currentWord){
             usersGuessed.push(data.user);
+            wordGuessed = {   [currentWord]: usersGuessed}
+            console.log(wordGuessed);
             if(usersGuessed.length + 1 === users.length || userTimeout.length === users.length){
                 sessionEnd = true;
                 usersGuessed = [];
