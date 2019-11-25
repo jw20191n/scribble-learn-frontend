@@ -16,12 +16,15 @@ export default class List extends Component {
 
     addUser = (data) => {
         let div = document.getElementById('user-list');
-        div.innerHTML = "";
-        data.forEach(user => {
-            if( user !== null ){
-                div.innerHTML += `<p>${user.username}</p>`
-            }
-       })  
+        if(div){
+            div.innerHTML = "";
+            data.forEach(user => {
+                if( user !== null ){
+                    div.innerHTML += `<p>${user.username}</p>`
+                }
+           }) 
+        }
+         
     }
 
  

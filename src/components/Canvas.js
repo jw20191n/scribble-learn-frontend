@@ -35,8 +35,8 @@ class Canvas extends Component {
     }
 
     setDrawer = (data) => {
-        // console.log(data.drawer)
-        if(data.drawer !== null && this.props.currentUser){
+
+        if(data.drawer && this.props.currentUser){
             if (data.drawer.id === this.props.currentUser.id){
                 this.drawing = true;
             }else{
@@ -44,12 +44,12 @@ class Canvas extends Component {
             }
         }
 
-        if(data.session_end){
+        if(data.sessionEnd){
             const canvas = document.getElementById('canvas');
             const c = canvas.getContext('2d');
             c.clearRect(0, 0, canvas.width, canvas.height);
         }
-        socket.emit('restart_session', { sessionEnd: false });
+        // socket.emit('restart_session', { sessionEnd: false });
     }
 
     newDrawing = (data) => {

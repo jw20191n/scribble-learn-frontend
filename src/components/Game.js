@@ -9,7 +9,8 @@ let socket;
 class Game extends Component {
 
     state = {
-        currentUser: null
+        currentUser: null, 
+        score: 0
     }
 
     componentDidMount(){
@@ -21,7 +22,6 @@ class Game extends Component {
             socket = io(':3002')
             // socket.on('print_user', this.setUsers)
             socket.on('current_user', this.printWord);
-            // socket.on('chat', this.checkSession);
         } 
     }
 
@@ -29,28 +29,16 @@ class Game extends Component {
         console.log('game updated');
     }
 
-    // checkSession = (data) => {
-    //     this.setState({
-    //         sessionEnd: data.session_status
-    //     })
-    //     // console.log(this.state.sessionEnd);
-    // }
-
-    // setUsers = (data) => {
-    //     this.setState({
-    //         users: data
-    //     })
-    //     console.log(this.state.users);
-    // } 
-
     printWord = (data) => {
         let div = document.getElementById('current-word');
         div.innerText = "";
-        if(!data.game_status){
-            if(data.drawer !==null && this.props.currentUser){
-                // console.log(data.drawer);
+
+        // console.log("session", data.sessionEnd);
+        // console.log("round", data.round);
+
+        if(!data.game_status && !data.sessionEnd){
+            if(data.drawer && this.props.currentUser){
                 if(data.drawer.id === this.props.currentUser.id){
-                    alert("You are drawing '" + data.word + "'");
                     div.innerText = data.word;
                 }else{
                     for(let i=0;i<data.word.length;i++){
@@ -58,10 +46,30 @@ class Game extends Component {
                     }
                 }
             }
-        }else{
-            alert('gamee is over');
+
+        }else if (!data.game_status && data.sessionEnd){
+            if(data.drawer){
+                console.log(data.round);
+                if(this.props.currentUser){
+                    if(data.drawer.id === this.props.currentUser.id){
+                        alert("Round " + data.round + "!  ");
+                        alert("You are drawing '" + data.word + "'");
+                        div.innerText = data.word;
+                    }else{
+                        alert("Round " + data.round + "!  " + data.drawer.username + " is drawing");
+                        for(let i=0;i<data.word.length;i++){
+                            div.innerText += "  __  ";
+                        }
+                    }
+                }
+            }
+        }else if(data.game_status){
+            alert('game is over');
+            this.props.history.push('/student');
         }
     }
+
+
 
     greetings = () => {
         if (this.props.currentUser){

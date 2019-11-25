@@ -53,8 +53,7 @@ class App extends React.Component {
             <Route exact path='/createlesson' render={(routerProps) => <CreateLesson currentUser={this.state.currentUser} {...routerProps}/> } /> 
             <Route exact path='/lessons' render={(routerProps) => <Lessons currentUser={this.state.currentUser} {...routerProps}/> } /> 
             <Route exact path='/canvas' render={() => <Canvas currentUser={this.state.currentUser} /> } /> 
-            <Route exact path='/game' render={() => <Game currentUser={this.state.currentUser} /> } /> 
-            <Route exact path='/toolbar' render={() => <Toolbar/>} /> 
+            <Route exact path='/game' render={(routerProps) => <Game currentUser={this.state.currentUser} {...routerProps}/> } /> 
           </Switch>
         </div>
       </ Router>
