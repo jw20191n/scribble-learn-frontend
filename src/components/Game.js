@@ -25,10 +25,9 @@ class Game extends Component {
             socket.on('current_user', this.printWord)
             socket.emit('start', {start: true, user: this.props.currentUser})
         } 
-        // this.updateTimer();
     }
 
-  
+  //handle modal popup
     handleShow = () => {
         this.setState({
             show: true
@@ -41,6 +40,16 @@ class Game extends Component {
         })
     }
 
+    //print out greetings
+    greetings = () => {
+        if (this.props.currentUser){
+            return <p>game room {this.props.currentUser.lesson_id}</p>
+        }else{
+            return <p>game room </p>  
+        }
+    }
+
+    //print out current word if the user is guessing, replace word with underscore
     printWord = (data) => {
         let div = document.getElementById('current-word');
 
@@ -79,18 +88,11 @@ class Game extends Component {
             for(const user in data.scores){
                 alert.innerHTML += ` <p>${user} : ${data.scores[user]}</p>`
             }
-
             setTimeout(()=>{ this.props.history.push('/student') },5000)
         }
     }
 
-    greetings = () => {
-        if (this.props.currentUser){
-            return <p>game room {this.props.currentUser.lesson_id}</p>
-        }else{
-            return <p>game room </p>  
-        }
-    }
+
  
     render() {
         return (
