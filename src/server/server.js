@@ -16,7 +16,7 @@ let currentDrawer = null;// will store the current drawing user
 var users = [];//all user in the room
 var usersGuessed = [];//array of user who guessed a particular word
 let userTimeout = [];//array of user who passed time.
-let seconds = 20;
+let seconds = 30;
 let words = ["apple", "pear", "banana"];
 let round = 1;
 let sessionEnd = true;
@@ -70,16 +70,6 @@ io.on('connection', function (socket) {
                 clearInterval(timer);
                 sessionEnd = true;
                 usersGuessed = [];
-                round += 1;
-
-                //reset currentUser
-                if(index < users.length - 1 ){
-                    index += 1;
-                }else{
-                    index = 0;
-                }
-                currentDrawer = users[index];
-
                 //clear canvas
                 line_history = [];
 
@@ -88,14 +78,22 @@ io.on('connection', function (socket) {
                     currentWord = words[Math.floor(Math.random() * words.length)];
                     arrayIndex = words.indexOf(currentWord);
                     words.splice(arrayIndex, 1);
-                    seconds = 20;
+
+                    seconds = 30;
+                    round += 1;
+
+                    //reset currentUser
+                    if(index < users.length - 1 ){
+                        index += 1;
+                    }else{
+                        index = 0;
+                    }
+                    currentDrawer = users[index];
                     console.log(words);
                 }else{
                     gameover = true;
                     users = [];
-                    line_history = [];
                     round = 0;
-                    usersGuessed = [];
                     index = 0;
                     words = ["apple", "pear", "banana"];
                 }
@@ -128,10 +126,9 @@ io.on('connection', function (socket) {
             }
     
             console.log(userScore);
-            if(usersGuessed.length + 1 === users.length || userTimeout.length === users.length){
+            if(usersGuessed.length + 1 === users.length){
                 sessionEnd = true;
                 usersGuessed = [];
-                round += 1;
 
                 //reset currentUser
                 if(index < users.length - 1 ){
@@ -149,14 +146,13 @@ io.on('connection', function (socket) {
                     currentWord = words[Math.floor(Math.random() * words.length)];
                     arrayIndex = words.indexOf(currentWord);
                     words.splice(arrayIndex, 1);
-                    seconds = 20;
+                    seconds = 30;
+                    round += 1;
                     console.log(words);
                 }else{
                     gameover = true;
                     users = [];
-                    line_history = [];
                     round = 0;
-                    usersGuessed = [];
                     index = 0;
                     words = ["apple", "pear", "banana"];
                 }

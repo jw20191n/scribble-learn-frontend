@@ -71,6 +71,7 @@ class Game extends Component {
             }
         }else if (!data.game_status && data.sessionEnd){
             if(data.drawer){
+                console.log('session end');
                 if(this.props.currentUser){
                     this.handleShow();
                     if(data.drawer.id === this.props.currentUser.id){
@@ -85,9 +86,6 @@ class Game extends Component {
         }else if(data.game_status){
             this.handleShow();
             console.log(data.scores)
-            for(const user in data.scores){
-                alert.innerHTML += ` <p>${user} : ${data.scores[user]}</p>`
-            }
             setTimeout(()=>{ this.props.history.push('/student') },5000)
         }
     }
