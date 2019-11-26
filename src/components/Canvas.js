@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { Server } from 'http';
 
 let socket;
 
@@ -46,8 +45,10 @@ class Canvas extends Component {
 
         if(data.sessionEnd){
             const canvas = document.getElementById('canvas');
-            const c = canvas.getContext('2d');
-            c.clearRect(0, 0, canvas.width, canvas.height);
+            if(canvas){
+                const c = canvas.getContext('2d');
+                c.clearRect(0, 0, canvas.width, canvas.height);
+            }
         }
         // socket.emit('restart_session', { sessionEnd: false });
     }

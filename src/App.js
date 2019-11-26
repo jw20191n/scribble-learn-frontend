@@ -11,14 +11,12 @@ import CreateLesson from './components/CreateLesson';
 import Lessons from './components/Lessons';
 import Canvas from './components/Canvas';
 import Game from './components/Game';
-import Toolbar from './components/Toolbar';
 
 
 class App extends React.Component {
 
   state={
-    currentUser: null,
-    // words:[]
+    currentUser: null
   }
 
   setCurrentUser = (user) => { 
@@ -32,12 +30,6 @@ class App extends React.Component {
       currentUser: null
     })
   }
-
-  // setWordState = (array) => {
-  //   this.setState({
-  //     words: array
-  //   })
-  // }
 
   render() {
     return (

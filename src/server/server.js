@@ -12,18 +12,19 @@ app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:3002");
 
 var line_history = [];// array of all lines drawn
-let currentDrawer = null;
-var users = [];
-var usersGuessed = [];
+let currentDrawer = null;// will store the current drawing user
+var users = [];//all user in the room
+var usersGuessed = [];//array of user who guessed a particular word
+let userTimeout = [];//array of user who passed time.
+let seconds = 20;
 let words = ["apple", "pear", "banana"];
 let round = 1;
 let sessionEnd = true;
 var index = 0;
 var gameover = false;
-let userTimeout = [];
-let seconds = 15;
+let wordGuessed = {}; //{ currentWord: userGuessed }
+let userScore = {}; //{ username: score }
 
-let wordGuessed = {}
 
 //set first currentWord
 let currentWord = words[Math.floor(Math.random() * words.length)];
@@ -39,7 +40,7 @@ io.on('connection', function (socket) {
       socket.emit('draw_line', { line: line_history[i] } );
    }
    socket.emit('print_user', users);
-   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, round:round, sessionEnd: sessionEnd});
+   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore});
 
    currentDrawer = users[index];
 
@@ -87,21 +88,21 @@ io.on('connection', function (socket) {
                     currentWord = words[Math.floor(Math.random() * words.length)];
                     arrayIndex = words.indexOf(currentWord);
                     words.splice(arrayIndex, 1);
+                    seconds = 20;
                     console.log(words);
                 }else{
                     gameover = true;
                     users = [];
                     line_history = [];
-                    round = 1;
+                    round = 0;
                     usersGuessed = [];
                     index = 0;
                     words = ["apple", "pear", "banana"];
                 }
 
-                seconds = 20;
                 io.emit('time_left', { seconds: seconds });
                 io.emit('chat', { user: data.user, msg: "time is up"}); 
-                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round});  
+                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore});  
             }
         }, 1000);
    })
@@ -110,8 +111,23 @@ io.on('connection', function (socket) {
    socket.on('chat', function(data){
        if(data.msg === currentWord){
             usersGuessed.push(data.user);
-            wordGuessed = {   [currentWord]: usersGuessed}
-            console.log(wordGuessed);
+            wordGuessed[currentWord] = usersGuessed;
+
+            if(userScore[data.user.username]){
+                userScore[data.user.username] += 10;
+            }else{
+                userScore[data.user.username] = 0;
+                userScore[data.user.username] += 10;
+            }
+
+            if(userScore[currentDrawer.username]){
+                userScore[currentDrawer.username] += Math.abs(10/(users.length-1));
+            }else{
+                userScore[currentDrawer.username] = 0;
+                userScore[currentDrawer.username] += Math.abs(10/(users.length-1));
+            }
+    
+            console.log(userScore);
             if(usersGuessed.length + 1 === users.length || userTimeout.length === users.length){
                 sessionEnd = true;
                 usersGuessed = [];
@@ -133,12 +149,13 @@ io.on('connection', function (socket) {
                     currentWord = words[Math.floor(Math.random() * words.length)];
                     arrayIndex = words.indexOf(currentWord);
                     words.splice(arrayIndex, 1);
+                    seconds = 20;
                     console.log(words);
                 }else{
                     gameover = true;
                     users = [];
                     line_history = [];
-                    round = 1;
+                    round = 0;
                     usersGuessed = [];
                     index = 0;
                     words = ["apple", "pear", "banana"];
@@ -150,7 +167,7 @@ io.on('connection', function (socket) {
 
              socket.emit('print_user', users);
              io.emit('chat', { user: data.user, msg: "guessed it right"}); 
-             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round});  
+             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore});  
 
             // console.log(currentDrawer);
        } else{
