@@ -33,27 +33,47 @@ export default class Popup extends Component {
       if(title && contentDiv){
         if(this.state.msg !== "game over"){
           //game not over
-          title.innerText = `Round ${this.state.round}`;
-          contentDiv.innerText = this.state.msg;
+
           if(this.state.round !== 1){
-            contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.round-2]}</p>`;
-            for(const key in this.state.scoreAdded){
-              contentDiv.innerHTML += `<p>${key}: + ${this.state.scoreAdded[key]}</p>`
-            }
-          }
-          // console.log('words:', this.state.words, 'round:', this.state.round);
-          setTimeout(() => {
-            this.handleClose();
-          }, 3000);
+            //not first round
+            title.innerText = `Round over`;
+            contentDiv.innerHTML =  `<p>the word is ${this.state.words[this.state.round-2]}</p>`;
+            // for(let i=1; i<this.state.scoreAdded.length; i++){
+            //   for(const keys in this.state.scoreAdded[i]){
+            //     this.state.scoreAdded[i][keys]
+            //   }
+            // }
+
+            setTimeout(() => {
+              title.innerText = `Round ${this.state.round}`;
+              contentDiv.innerText = this.state.msg;
+  
+              setTimeout(() => {
+                this.handleClose();
+              }, 3000);
+            }, 3000);
+          }else{
+            //first round 
+            title.innerText = `Round ${this.state.round}`;
+            contentDiv.innerText = this.state.msg;
+            setTimeout(() => {
+              this.handleClose();
+            }, 3000);
+          }          
 
         }else{
           //game over
           title.innerText = this.state.msg;
-          contentDiv.innerText = "";
+          contentDiv.innerHTML = "";
           contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
-          for(const key in this.state.scores){
-            contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
-          }
+
+          setTimeout(() => {
+            contentDiv.innerHTML = "";
+            for(const key in this.state.scores){
+              contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
+            }
+          }, 3000);
+
         }
       }
     }
@@ -87,7 +107,7 @@ export default class Popup extends Component {
         round: data.round,
         show: data.popup,
         scores: data.scores,
-        scoreAdded: data.scoreAdded
+        scoreAdded: [...this.state.scoreAdded, data.scores]
       })
 
       if(!this.state.words.includes(data.word)){
