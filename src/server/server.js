@@ -24,6 +24,7 @@ var index = 0;
 var gameover = false;
 let wordGuessed = {}; //{ currentWord: userGuessed }
 let userScore = {}; //{ username: score }
+let scoreAdded = {}; //{ username: score }
 let popup = true;
 
 
@@ -108,7 +109,7 @@ io.on('connection', function (socket) {
 
                 io.emit('time_left', { seconds: seconds });
                 io.emit('chat', { user: data.user, msg: "time is up"}); 
-                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});  
+                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup, scoreAdded: scoreAdded});  
             }
         }, 1000);
    })
@@ -132,6 +133,11 @@ io.on('connection', function (socket) {
                 userScore[currentDrawer.username] = 0;
                 userScore[currentDrawer.username] += Math.abs(10/(users.length-1));
             }
+
+
+            scoreAdded[data.user.username] = 10;
+            scoreAdded[currentDrawer.username] = Math.abs(10/(users.length-1));
+
     
             console.log(userScore);
             if(usersGuessed.length + 1 === users.length){
@@ -178,7 +184,7 @@ io.on('connection', function (socket) {
 
              socket.emit('print_user', users);
              io.emit('chat', { user: data.user, msg: "guessed it right"}); 
-             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup});  
+             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup, scoreAdded: scoreAdded});  
 
             // console.log(currentDrawer);
        } else{

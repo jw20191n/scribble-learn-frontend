@@ -11,7 +11,8 @@ export default class Popup extends Component {
     show: true,
     scores: null,
     round: 1,
-    words:[]
+    words:[],
+    scoreAdded: null
   }
 
     componentDidMount(){
@@ -36,8 +37,11 @@ export default class Popup extends Component {
           contentDiv.innerText = this.state.msg;
           if(this.state.round !== 1){
             contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.round-2]}</p>`;
+            for(const key in this.state.scoreAdded){
+              contentDiv.innerHTML += `<p>${key}: + ${this.state.scoreAdded[key]}</p>`
+            }
           }
-          console.log('words:', this.state.words, 'round:', this.state.round);
+          // console.log('words:', this.state.words, 'round:', this.state.round);
           setTimeout(() => {
             this.handleClose();
           }, 3000);
@@ -64,7 +68,7 @@ export default class Popup extends Component {
 
     printModal = (data) => {
       let message = "";
-      // console.log(data)
+      // console.log(data.scores)
 
       if(!data.game_status){
         if(this.props.currentUser && data.drawer){
@@ -82,7 +86,8 @@ export default class Popup extends Component {
         msg: message,
         round: data.round,
         show: data.popup,
-        scores: data.scores
+        scores: data.scores,
+        scoreAdded: data.scoreAdded
       })
 
       if(!this.state.words.includes(data.word)){
