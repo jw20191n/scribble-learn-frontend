@@ -24,6 +24,7 @@ var index = 0;
 var gameover = false;
 let wordGuessed = {}; //{ currentWord: userGuessed }
 let userScore = {}; //{ username: score }
+let popup = true;
 
 
 //set first currentWord
@@ -40,7 +41,7 @@ io.on('connection', function (socket) {
       socket.emit('draw_line', { line: line_history[i] } );
    }
    socket.emit('print_user', users);
-   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore});
+   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});
 
    currentDrawer = users[index];
 
@@ -82,6 +83,7 @@ io.on('connection', function (socket) {
 
                     seconds = 30;
                     round += 1;
+                    popup = true;
 
                     //reset currentUser
                     if(index < users.length - 1 ){
@@ -93,15 +95,20 @@ io.on('connection', function (socket) {
                     console.log(words);
                 }else{
                     gameover = true;
+                    popup = true;
                     users = [];
                     round = 0;
                     index = 0;
                     words = ["apple", "pear", "banana"];
+                    // currentWord = words[Math.floor(Math.random() * words.length)];
+                    // arrayIndex = words.indexOf(currentWord);
+                    // words.splice(arrayIndex, 1);
+                    console.log(words);
                 }
 
                 io.emit('time_left', { seconds: seconds });
                 io.emit('chat', { user: data.user, msg: "time is up"}); 
-                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore});  
+                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});  
             }
         }, 1000);
    })
@@ -149,30 +156,35 @@ io.on('connection', function (socket) {
                     words.splice(arrayIndex, 1);
                     seconds = 30;
                     round += 1;
+                    popup = true;
                     console.log(words);
                 }else{
                     gameover = true;
+                    popup = true;
                     users = [];
                     round = 0;
                     index = 0;
                     words = ["apple", "pear", "banana"];
+                    // currentWord = words[Math.floor(Math.random() * words.length)];
+                    // arrayIndex = words.indexOf(currentWord);
+                    // words.splice(arrayIndex, 1);
+                    console.log(words);
                 }
                 
             }else{
                 sessionEnd = false;
+                popup = false;
             }
 
              socket.emit('print_user', users);
              io.emit('chat', { user: data.user, msg: "guessed it right"}); 
-             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore});  
+             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup});  
 
             // console.log(currentDrawer);
        } else{
             io.emit('chat', data);
        }             
    })
-
-   
    
    //when client disconnets
    socket.on('disconnect', function(){
@@ -183,5 +195,12 @@ io.on('connection', function (socket) {
     usersGuessed = [];
     index = 0;
     words = ["apple", "pear", "banana"];
+    currentDrawer = null;
+    seconds = 30;
+    sessionEnd = true;
+    gameover = false;
+    wordGuessed = {};
+    userScore = {};
+    popup = true;
   });
 });

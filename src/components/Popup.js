@@ -7,13 +7,17 @@ let socket;
 export default class Popup extends Component {
 
   state = {
-    round: 1,
     msg: "",
-    scores: null
+    show: true,
+    scores: null,
+    round: 1
   }
 
     componentDidMount(){
-        console.log(this.props);
+      if(this.props.currentUser){
+        console.log(this.props.currentUser.username);
+      }
+       
         if(!socket){
             socket = io(':3002')
             socket.on('current_user', this.printModal);
@@ -21,13 +25,21 @@ export default class Popup extends Component {
       }
 
     componentDidUpdate(){
+      // console.log(this.state.show);
       let title = document.getElementById('titleDiv');
       let contentDiv = document.getElementById('contentDiv');
       if(title && contentDiv){
-        if(this.state.round !== 0){
+        if(this.state.msg !== "game over"){
+          //game not over
           title.innerText = `Round ${this.state.round}`;
           contentDiv.innerText = this.state.msg;
+
+          setTimeout(() => {
+            this.handleClose();
+          }, 3000);
+
         }else{
+          //game over
           title.innerText = this.state.msg;
           contentDiv.innerText = "";
           for(const key in this.state.scores){
@@ -37,51 +49,44 @@ export default class Popup extends Component {
       }
     }
 
-      printModal = (data) => {
-        let message = "";
-        if(!data.game_status){
-          if(this.props.currentUser && data.drawer){
-            if(this.props.currentUser === data.drawer){
-             message = `you need to draw ${data.word}`;
-            }else{
-             message = `${data.drawer.username} is drawing`;
-            }
-          }
-        }else{
-         message = "game over"
-        }
 
-          this.setState({
-            round: data.round,
-            msg: message,
-            scores: data.scores
-          })
-          // console.log(title, content);
-    
-          // if(!data.game_status){
-          //   if(title && content){
-          //     title.innerText = "";
-          //     title.innerText += `Round ${data.round}!`
-          //     if(this.props.currentUser){
-          //       if(this.props.currentUser === data.drawer){
-          //         content.innerText += `you need to draw ${data.word}`;
-          //       }else{
-          //         content.innerText +=  `${data.drawer.username} is drawing`;
-          //       }
-          //     }
-          //   }
-          // }else{
-          //   if(title && content){
-          //     title.innerText = "Game Over";
-          //   }
-          // }
-          
+    handleClose = () => {
+      socket.emit('popup', {popup: false});
+      this.setState({
+        show: false
+      })
+    }
+
+    printModal = (data) => {
+      let message = "";
+      // console.log(data)
+
+      if(!data.game_status){
+        if(this.props.currentUser && data.drawer){
+          if(this.props.currentUser.username === data.drawer.username){
+            message = `you need to draw ${data.word}`;
+          }else{
+            message = `${data.drawer.username} is drawing`;
+          }
         }
+      }else{
+        message = "game over"
+      }
+
+      // console.log(message);
+
+      this.setState({
+        msg: message,
+        round: data.round,
+        show: data.popup,
+        scores: data.scores
+      })
+    }
   
   
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.props.handleClose}>
+            <Modal show={this.state.show} onHide={this.handleClose} >
             <Modal.Header closeButton>
               <Modal.Title>
                 <div id="titleDiv"></div>
@@ -91,7 +96,7 @@ export default class Popup extends Component {
                 <div id="contentDiv"></div>
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={this.props.handleClose}>
+              <button onClick={this.handleClose}>
                 Close
               </button>
             </Modal.Footer>

@@ -88,5 +88,16 @@ div .signup{
 /* ====== studentpage.js ======== */
 
 .studentPage{
-  margin: 20%;
+  margin: 10% 20%;
+}
+
+/*  -------------  canvas.js  =------------  */
+.toolDiv{
+  /* margin-left:-10%; */
+  width:150%;
+}
+
+.canvasDiv{
+
+  width:100%;
 }

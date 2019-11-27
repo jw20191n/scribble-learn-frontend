@@ -72,13 +72,13 @@ export default class Chat extends Component {
     
     render() {
         return (
-            <div>
+            <div className="chat">
                 <div className="chatInfo">
                     <span id="msgHistory">Message History</span>
                 </div>
                 <form className="chatForm" onSubmit={this.handleSubmit}>
                     <input type="text" name="msg" placeholder="type answer here" onChange={this.handleChange} value={this.state.msg}/>
-                    <input type="submit" />
+                    <button type="submit" value="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>
         )
