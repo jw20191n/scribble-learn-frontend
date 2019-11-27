@@ -10,7 +10,8 @@ export default class Popup extends Component {
     msg: "",
     show: true,
     scores: null,
-    round: 1
+    round: 1,
+    words:[]
   }
 
     componentDidMount(){
@@ -33,7 +34,10 @@ export default class Popup extends Component {
           //game not over
           title.innerText = `Round ${this.state.round}`;
           contentDiv.innerText = this.state.msg;
-
+          if(this.state.round !== 1){
+            contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.round-2]}</p>`;
+          }
+          console.log('words:', this.state.words, 'round:', this.state.round);
           setTimeout(() => {
             this.handleClose();
           }, 3000);
@@ -42,6 +46,7 @@ export default class Popup extends Component {
           //game over
           title.innerText = this.state.msg;
           contentDiv.innerText = "";
+          contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
           for(const key in this.state.scores){
             contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
           }
@@ -73,14 +78,18 @@ export default class Popup extends Component {
         message = "game over"
       }
 
-      // console.log(message);
-
       this.setState({
         msg: message,
         round: data.round,
         show: data.popup,
         scores: data.scores
       })
+
+      if(!this.state.words.includes(data.word)){
+        this.setState({
+          words: [...this.state.words, data.word]
+        })
+      }
     }
   
   

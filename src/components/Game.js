@@ -11,7 +11,8 @@ class Game extends Component {
 
     state = {
         currentUser: null,
-        timeOut: false
+        timeOut: false, 
+        words: []
     }
 
     componentDidMount(){
@@ -28,15 +29,6 @@ class Game extends Component {
         } 
     }
 
-
-    //print out greetings
-    // greetings = () => {
-    //     if (this.props.currentUser){
-    //         return <p>game room {this.props.currentUser.lesson_id}</p>
-    //     }else{
-    //         return <p>game room </p>  
-    //     }
-    // }
 
     //print out current word if the user is guessing, replace word with underscore
     printWord = (data) => {
@@ -82,7 +74,7 @@ class Game extends Component {
         return (
             <div className="d-flex flex-column">
                 <div className="game-div" id="PopupDiv">
-                    <Popup currentUser={this.props.currentUser}/>
+                    <Popup currentUser={this.props.currentUser} />
                 </div>
                 <Timer {...this.state}/>
                 <div className="d-flex flex-row">
