@@ -30,12 +30,20 @@
 }
 
 .game-div{
-  margin: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
+
+/* - ---- ---- - chat.js ----- --- --- --- */
 
 .chatInfo{
   height: 300px;
   background-color: whitesmoke;
+}
+
+span #msgHistory{
+  text-align: center;
+  text-decoration-style: solid;
 }
 
 form.chatForm{
@@ -44,4 +52,41 @@ form.chatForm{
 
 #current-word{
   margin-left: 30%;
+}
+
+/*---------  Login.js Signup.js---------*/
+
+.bgDiv{
+  background: url(../src/back.jpg);
+  background-size: contain;
+  width: 100%;
+  height: 100vh;
+  position:fixed;
+}
+
+div .login{
+  margin:10% 20%;
+  background: whitesmoke;
+  position:relative;
+}
+
+div .signup{
+  margin:10% 20%;
+  background: whitesmoke;
+  position:relative;
+}
+
+.auth-form{
+  padding: 10% 20%;
+}
+
+.formTitle {
+  text-align: center;
+  padding-top:20px;
+}
+
+/* ====== studentpage.js ======== */
+
+.studentPage{
+  margin: 20%;
 }

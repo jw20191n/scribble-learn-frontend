@@ -15,7 +15,7 @@ export default class Timer extends Component {
 
     getTimeLeft = (data) => {
         let div = document.getElementById('timer');
-        if(div){
+        if(div && this.props.currentUser){
             div.innerText = data.seconds;
         }
     }

@@ -22,29 +22,28 @@ export default class StudentPage extends Component {
     }
 
     addUser = (data) => {
-        let div = document.getElementById('student-list');
-        if(div){
-            div.innerHTML = "";
+        let ul = document.getElementById('user-list');
+        if(ul){
+            ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    div.innerHTML += `<p>${user.username}</p>`
+                    ul.innerHTML += `<li className="list-group-item"><i class="far fa-poo"></i> ${user.username}</li>`
                 }
-           })  
+           }) 
         }
-        
     }
 
     render() {
         if(this.props.currentUser){
             return (
-                <div >
-                    <h1>Welcome, {this.props.currentUser.username}!</h1>
-                    <div id="student-list"></div>
-                    <NavLink to="/game" exact >ready to join class</NavLink>
+                <div className="studentPage">
+                    <h3>Current Online Students</h3>
+                    <ul className="list-group" id="user-list"></ul>
+                    <NavLink to="/game" exact ><i className="fas fa-sign-in-alt"></i> join class</NavLink>
                 </div>
             )
         }else{
-            return (<div >not login yet</div>)
+            return (<div className="studentPage">not login yet</div>)
         }
     }
 }

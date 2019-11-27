@@ -10,30 +10,31 @@ export default class List extends Component {
         if(!socket){
             socket = io(':3002')
             socket.on('print_user', this.addUser)
+    
         } 
     }
 
 
     addUser = (data) => {
-        let div = document.getElementById('user-list');
-        if(div){
-            div.innerHTML = "";
+        let ul = document.getElementById('user-list');
+        if(ul){
+            ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    div.innerHTML += `<p>${user.username}</p>`
+                    ul.innerHTML += `<li class="list-group-item"><i class="far fa-poo"></i>${user.username}</li>`
                 }
            }) 
         }
-         
     }
+
 
  
     render() {
         return (
             <div className="game-div">
-                Student List
-                <div id="user-list">
-                </div>
+                In Room
+                <ul className="list-group" id="user-list">
+                </ul>
             </div>
         )
     }

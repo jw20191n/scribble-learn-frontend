@@ -38,7 +38,7 @@ class App extends React.Component {
           <NavBar currentUser={this.state.currentUser}/> 
           <Switch>
             <Route exact path="/" render={() => <Home /> }/>
-            <Route exact path="/login" render={(routerProps) => <Login setCurrentUser={this.setCurrentUser} {...routerProps}/> } /> 
+            <Route exact path="/login" render={(routerProps) => <Login setCurrentUser={this.setCurrentUser} signOut={this.signOut} {...routerProps}/> } /> 
             <Route exact path='/signup' render={(routerProps) => <SignUp {...routerProps} setCurrentUser={this.setCurrentUser}/> } /> 
             <Route exact path='/student' render={(routerProps) => <StudentPage currentUser={this.state.currentUser} {...routerProps}  setCurrentUser={this.setCurrentUser} /> } /> 
             <Route exact path='/admin' render={() => <AdminPage currentUser={this.state.currentUser}/> } /> 

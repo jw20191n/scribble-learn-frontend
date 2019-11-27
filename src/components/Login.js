@@ -10,7 +10,7 @@ export default class Login extends Component {
     }
 
     componentDidMount(){
-        // this.props.signOut()
+        this.props.signOut()
     }
 
     handleChange = (event) => {
@@ -56,29 +56,28 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="login"> 
-            <form className="auth-form" onSubmit={this.handleSubmit}>
-                <ul className="form-ul">
-                    <li>
-                        <label>Username</label>
-                        <input type="text" name="username" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
-                    </li>
-                    <li>
-                        <label>Password</label>
-                        <input type="text" name="password" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
-                    </li>
-                    <li>
-                        <select name="type" onChange={this.handleChange}>
-                            <option value="student">Student</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </li>
-                    <li>
-                        <input type="submit" value="submit" className="submit-btn" />
-                    </li>  
-                </ul>
-            </form>
-        </div>
+            <div className="bgDiv">
+                <div className="login"> 
+                    <h3 className="formTitle">Login</h3> 
+                    <form className="auth-form" onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" className="form-control" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
+                        </div>
+                        <div className="form-group">    
+                            <label>Password</label>
+                            <input type="text" name="password" className="form-control" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
+                        </div>
+                        <div className="form-group">         
+                            <select name="type" onChange={this.handleChange}>
+                                <option value="student">Student</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>            
+                        <button type="submit" value="submit" className="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
         )
     }
 }

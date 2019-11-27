@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
    //print the list of users in game room
    socket.on('print_user', function(data){
        users.push(data.user);
-       userScore[data.user] = 0;
+       userScore[data.user.username] = 0;
        io.emit('print_user',  users);
        console.log(users.length, " users");
    })

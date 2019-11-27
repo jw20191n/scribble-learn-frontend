@@ -68,35 +68,32 @@ export default class SignUp extends Component {
     }
     
     render() {
-
         return (
-            <div className="signup"> 
-                <form className="auth-form" onSubmit={this.handleSubmit}>
-                    <ul className="form-ul">
-                        <li>
+            <div className="bgDiv">
+                <div className="signup"> 
+                    <h3 className="formTitle">Sign Up</h3> 
+                    <form className="auth-form" onSubmit={this.handleSubmit}>
+                        <div className="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
-                        </li>
-                        <li>
+                            <input type="text" name="username" className="form-control" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
+                        </div>
+                        <div className="form-group">
                             <label>Password</label>
-                            <input type="text" name="password" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
-                        </li>
-                        <li>
+                            <input type="text" name="password" className="form-control" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
+                        </div>
+                        <div className="form-group">  
                             <label>Password Confirmation</label>
-                            <input type="text" name="passwordConfirmation" placeholder="Password Confirmation" onChange={this.handleChange} value={this.state.passwordConfirmation}/>
-                        </li>
-                        <li>
+                            <input type="text" name="passwordConfirmation" className="form-control" placeholder="Password Confirmation" onChange={this.handleChange} value={this.state.passwordConfirmation}/>
+                        </div>
+                        <div className="form-group">
                             <select name="type" onChange={this.handleChange}>
                                 <option value="admin">Admin</option>
                                 <option value="student">Student</option>
                             </select>
-                        </li>
-                        <li>
-                            <input type="submit" value="submit" className="submit-btn" />
-                        </li>
-                    </ul>
-                   
-                </form>
+                        </div>
+                        <button type="submit" value="submit" className="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         )
     }
