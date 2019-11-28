@@ -11,7 +11,6 @@ class Game extends Component {
 
     state = {
         currentUser: null,
-        timeOut: false, 
         words: []
     }
 
@@ -61,8 +60,8 @@ class Game extends Component {
                     }
                 }
             }else if(data.game_status){
-                console.log(data.scores)
-                setTimeout(()=>{ this.props.history.push('/student') },5000)
+                console.log('game ended');
+                setTimeout(()=>{ this.props.history.push('/student') },4000)
             }
         }
         

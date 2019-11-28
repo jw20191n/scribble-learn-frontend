@@ -12,7 +12,7 @@ export default class Popup extends Component {
     scores: null,
     round: 1,
     words:[],
-    scoreAdded: null
+    addScore: null
   }
 
     componentDidMount(){
@@ -27,7 +27,10 @@ export default class Popup extends Component {
       }
 
     componentDidUpdate(){
-      // console.log(this.state.show);
+      this.renderModal();
+    }
+
+    renderModal = () => {
       let title = document.getElementById('titleDiv');
       let contentDiv = document.getElementById('contentDiv');
       if(title && contentDiv){
@@ -38,12 +41,11 @@ export default class Popup extends Component {
             //not first round
             title.innerText = `Round over`;
             contentDiv.innerHTML =  `<p>the word is ${this.state.words[this.state.round-2]}</p>`;
-            // for(let i=1; i<this.state.scoreAdded.length; i++){
-            //   for(const keys in this.state.scoreAdded[i]){
-            //     this.state.scoreAdded[i][keys]
-            //   }
-            // }
 
+            for(const key in this.state.addScore){
+              contentDiv.innerHTML += `<p>${key}: +${this.state.addScore[key]}</p>`
+            }
+          
             setTimeout(() => {
               title.innerText = `Round ${this.state.round}`;
               contentDiv.innerText = this.state.msg;
@@ -64,16 +66,24 @@ export default class Popup extends Component {
         }else{
           //game over
           title.innerText = this.state.msg;
-          contentDiv.innerHTML = "";
-          contentDiv.innerHTML +=  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
+          contentDiv.innerHTML =  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
 
-          setTimeout(() => {
-            contentDiv.innerHTML = "";
+          contentDiv.innerHTML += "FINAL SCORE";
+
             for(const key in this.state.scores){
               contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
             }
-          }, 3000);
 
+          // setTimeout(() => {
+          //   console.log('!');
+
+          //   contentDiv.innerHTML = "";
+          //   contentDiv.innerHTML += "FINAL SCORE";
+
+          //   for(const key in this.state.scores){
+          //     contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
+          //   }
+          // }, 3000);
         }
       }
     }
@@ -102,12 +112,24 @@ export default class Popup extends Component {
         message = "game over"
       }
 
+
+      if(data.sessionEnd){
+        let addedPoints = {};
+
+        for(const keys in this.state.scores){
+          addedPoints[keys] = data.scores[keys] - this.state.scores[keys];
+        }
+
+        this.setState({
+          addScore: addedPoints
+        })
+      }
+
       this.setState({
         msg: message,
         round: data.round,
         show: data.popup,
-        scores: data.scores,
-        scoreAdded: [...this.state.scoreAdded, data.scores]
+        scores: data.scores
       })
 
       if(!this.state.words.includes(data.word)){
@@ -115,6 +137,7 @@ export default class Popup extends Component {
           words: [...this.state.words, data.word]
         })
       }
+   
     }
   
   
