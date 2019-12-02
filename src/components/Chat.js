@@ -4,8 +4,10 @@ import io from 'socket.io-client';
 let socket;
 
 export default class Chat extends Component {
+
     state = {
-        msg: ""
+        msg: "",
+        clean: false
     }
 
     drawing = false;
@@ -59,23 +61,30 @@ export default class Chat extends Component {
     }
 
     printChat = (data) => {
-        let div = document.getElementsByClassName("chatInfo")[0]
+        let div = document.getElementById("chatInfo");
         if(div){
-            if(data.user){
-                div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
-    
+            if(data.sessionEnd){
+                div.innerHTML = "";
             }else{
-                div.innerHTML += `<p>noname: ${data.msg}</p>`
-            }
+                if(data.user){
+                    if(data.msg === "guessed it right"){
+                        div.innerHTML += `<p class="green">${data.user.username}: ${data.msg}</p>`
+                    }else{
+                        div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
+                    }
+        
+                }else{
+                    div.innerHTML += `<p>noname: ${data.msg}</p>`
+                }   
+            }          
         }   
     }
     
     render() {
         return (
             <div className="chat">
-                <div className="chatInfo">
-                    <span id="msgHistory">Message History</span>
-                </div>
+                <span id="msgHistory">Message History</span>
+                <div id="chatInfo"></div>
                 <form className="chatForm" onSubmit={this.handleSubmit}>
                     <input type="text" name="msg" placeholder="type answer here" onChange={this.handleChange} value={this.state.msg}/>
                     <button type="submit" value="submit" className="btn btn-primary">Submit</button>

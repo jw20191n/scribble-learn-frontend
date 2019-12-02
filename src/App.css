@@ -36,7 +36,7 @@
 
 /* - ---- ---- - chat.js ----- --- --- --- */
 
-.chatInfo{
+#chatInfo{
   height: 300px;
   background-color: whitesmoke;
 }
@@ -52,6 +52,10 @@ form.chatForm{
 
 #current-word{
   margin-left: 30%;
+}
+
+.green {
+  color: green;
 }
 
 /*---------  Login.js Signup.js---------*/
@@ -134,9 +138,13 @@ svg circle {
   stroke-dashoffset: 0px;
   stroke-linecap: round;
   stroke-width: 2px;
-  stroke: black;
+  stroke: green;
   fill: none;
-  animation: countdown 30s linear infinite forwards;
+  /* animation: countdown 30s linear infinite forwards; */
+}
+
+.run-animation{
+   animation: countdown 30s linear infinite forwards;
 }
 
 @keyframes countdown {

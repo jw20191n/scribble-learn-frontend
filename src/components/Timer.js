@@ -5,6 +5,7 @@ let socket;
 
 export default class Timer extends Component {
 
+
     componentDidMount(){
 
         if(!socket){
@@ -19,14 +20,22 @@ export default class Timer extends Component {
         if(countdownNumber && this.props.currentUser){
             countdownNumber.textContent = data.seconds;
         }
+
+        if(data.seconds === 29){
+           this.startAnimation(); 
+        }
+
+        if(data.seconds === 0 ){
+            let svg = document.querySelector('svg');
+            svg.innerHTML = "";
+        }
     }
 
-    // printCircle = (data) => {
-    //     let circle = document.querySelector('circle');
-    //     if(data.seconds === 30){
-    //         circle.style.animation = "countdown 30s linear infinite forwards";
-    //     }
-    // }
+    startAnimation = () => {
+        let svg = document.querySelector('svg');
+        svg.innerHTML = "";
+        svg.innerHTML += "<circle class='run-animation' r='18' cx='20' cy='20'></circle>"
+    }
 
     render() {
         return (
@@ -34,7 +43,7 @@ export default class Timer extends Component {
                 <div id="countdown">
                     <div id="countdown-number"></div>
                     <svg>
-                        <circle r="18" cx="20" cy="20"></circle>
+                        
                     </svg>
                 </div>
             </div>

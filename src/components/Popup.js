@@ -76,7 +76,6 @@ export default class Popup extends Component {
                 }
                 setTimeout(() => {
                   this.handleClose();
-                  console.log('game over close modal');
                 }, 3000);
               }
         }

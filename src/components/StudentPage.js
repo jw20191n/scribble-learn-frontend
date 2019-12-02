@@ -27,7 +27,7 @@ export default class StudentPage extends Component {
             ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    ul.innerHTML += `<li className='list-group-item'><i class="far fa-poo"></i> ${user.username}</li>`
+                    ul.innerHTML += `<li class='list-group-item'><i class="far fa-poo"></i> ${user.username}</li>`
                 }
            }) 
         }

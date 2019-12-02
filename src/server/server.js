@@ -104,6 +104,7 @@ io.on('connection', function (socket) {
                     io.emit('chat', { user: user, msg: "time is up"}); 
                 }else{
                     clearInterval(timer);
+                    io.emit('time_left', { seconds: seconds })
                     gameover = true;
                     round = 0;
                     index = 0;
@@ -160,7 +161,7 @@ io.on('connection', function (socket) {
                     seconds = 30;
                     round += 1;
                     console.log('session end all users guessed right. words left: ', words);
-                    io.emit('chat', { user: data.user, msg: "guessed it right"}); 
+                    io.emit('chat', { user: data.user, sessionEnd: sessionEnd, msg: "guessed it right"}); 
                     io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup}); 
                 }else{
                   seconds = 0;  
@@ -169,7 +170,7 @@ io.on('connection', function (socket) {
             }else{
                 sessionEnd = false;
                 popup = false;
-                io.emit('chat', { user: data.user, msg: "guessed it right"}); 
+                io.emit('chat', { user: data.user, sessionEnd: sessionEnd, msg: "guessed it right"}); 
                 io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup}); 
             } 
 
