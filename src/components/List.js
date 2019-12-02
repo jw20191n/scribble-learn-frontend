@@ -21,7 +21,7 @@ export default class List extends Component {
             ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    ul.innerHTML += `<li class="list-group-item" id=${user.username}><i class="far fa-poo"></i>${user.username}</li>`
+                    ul.innerHTML += `<li class="list-group-item list" id=${user.username}><i class="far fa-poo"></i>${user.username}</li>`
                 }
            }) 
         }

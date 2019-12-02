@@ -36,14 +36,24 @@ export default class StudentPage extends Component {
     render() {
         if(this.props.currentUser){
             return (
-                <div className="studentPage">
-                    <h3>Current Online Students</h3>
-                    <ul className="list-group list-group-flush" id="user-list"></ul>
-                    <NavLink to="/game" exact ><i className="fas fa-sign-in-alt"></i> join class</NavLink>
+                <div id="studentPage-Back">
+                    <div id='img1'></div>
+                    <div className="studentPage">
+                        <h3>Current Online Students</h3>
+                        <ul className="list-group list-group-flush" id="user-list"></ul>
+                        <NavLink to="/game" exact ><i className="fas fa-sign-in-alt"></i> join class</NavLink>
+                    </div>
+                    <div id='img2'></div>
+                    <div id='img3'></div>
                 </div>
             )
         }else{
-            return (<div className="studentPage">not login yet</div>)
+            return (<div id="studentPage-Back">
+                        <div id='img1'></div>
+                        <div className="studentPage">not login yet</div>
+                        <div id='img2'></div>
+                        <div id='img3'></div>
+                    </div>)
         }
     }
 }

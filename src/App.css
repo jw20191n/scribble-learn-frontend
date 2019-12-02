@@ -69,10 +69,13 @@ form.chatForm{
 }
 
 div .login{
-  margin:10% 20%;
+  margin:auto;
+  margin-top: 10%;
   background: whitesmoke;
   position:relative;
   font-family: 'Mali', cursive;
+  width: 450px;
+  height: 400px;
 }
 
 div .signup{
@@ -94,9 +97,53 @@ div .signup{
 /* ====== studentpage.js ======== */
 
 .studentPage{
-  margin: 10% 20%;
+  margin: auto;
+  width: 350px;
+  height: auto;
   font-family: 'Mali', cursive;
 }
+
+#studentPage-Back{
+  width:100%;
+  height:100vh;
+  position:fixed;
+  background-color: rgb(241, 236, 240);
+}
+
+
+#img1{
+  background: url(../src/gif1.gif);
+  background-size: contain;
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin-bottom: -100px;
+}
+
+#img2{
+  background: url(../src/gif2.gif);
+  background-size: contain;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin-left: 70%;
+}
+
+#img3{
+  background: url(../src/gif7.gif);
+  background-size: contain;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-top: -250px;
+  margin-left: 10%;
+}
+
+
+li .list-group-item{
+  background: rgba(255, 255, 255, 0);
+}
+
 
 /*  -------------  canvas.js  =------------  */
 .toolDiv{
@@ -140,7 +187,6 @@ svg circle {
   stroke-width: 4px;
   stroke: greenyellow;
   fill: none;
-  /* animation: countdown 30s linear infinite forwards; */
 }
 
 .run-animation{
@@ -154,4 +200,10 @@ svg circle {
   to {
     stroke-dashoffset: 113px;
   }
+}
+
+
+/* ------------------   List.js  ---------------------- */
+li.list{
+  font-size:18px;
 }
