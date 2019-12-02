@@ -42,10 +42,10 @@ export default class Popup extends Component {
                     if(this.state.round !== 1&& this.state.round !== 0){
                       //not first round
                       title.innerText = `Round over`;
-                      contentDiv.innerHTML =  `<p>the word is ${this.state.words[this.state.round-2]}</p>`;
+                      contentDiv.innerHTML =  `<p class="centerp">the word is ${this.state.words[this.state.round-2]}</p>`;
           
                       for(const key in this.state.addScore){
-                        contentDiv.innerHTML += `<p>${key}: +${this.state.addScore[key]}</p>`
+                        contentDiv.innerHTML += `<p class="centerp">${key}: +${this.state.addScore[key]}</p>`
                       }
                     
                       setTimeout(() => {
@@ -69,10 +69,13 @@ export default class Popup extends Component {
                 title.innerText = this.state.msg;
                 contentDiv.innerHTML =  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
       
-                contentDiv.innerHTML += "FINAL SCORE";
+                contentDiv.innerHTML += "<p class='centerp'>FINAL SCORE</p>";
       
-                for(const key in this.state.scores){
-                  contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
+                let scores = this.state.scores;
+                let scoresSorted = Object.keys(scores).sort(function(a,b){return scores[a]-scores[b]});
+
+                for(const key in scoresSorted){
+                  contentDiv.innerHTML += `<p class='centerp'>${parseInt(key)+1}: ${scoresSorted[key]} - ${scores[scoresSorted[key]]} points</p>`
                 }
                 setTimeout(() => {
                   this.handleClose();
