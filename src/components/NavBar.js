@@ -17,7 +17,7 @@ export default class NavBar extends Component {
         }else{
             return( 
                 <nav className='navbar navbar-expand-lg navbar-light dg-light' >
-                    <span className="navbar-brand">Welcome, {user.username}</span>
+                    <span className="navbar-brand">{user.username}</span>
                     <ul className='navbar-nav mr-auto'>
                         <li className='nav-item'><NavLink to="/login" exact className="nav-link">Logout</NavLink></li>
                     </ul>

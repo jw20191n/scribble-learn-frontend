@@ -6,8 +6,7 @@ let socket;
 export default class Chat extends Component {
 
     state = {
-        msg: "",
-        clean: false
+        msg: ""
     }
 
     drawing = false;
@@ -65,6 +64,7 @@ export default class Chat extends Component {
         if(div){
             if(data.sessionEnd){
                 div.innerHTML = "";
+                
             }else{
                 if(data.user){
                     if(data.msg === "guessed it right"){
@@ -72,13 +72,13 @@ export default class Chat extends Component {
                     }else{
                         div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
                     }
-        
                 }else{
                     div.innerHTML += `<p>noname: ${data.msg}</p>`
                 }   
             }          
         }   
     }
+
     
     render() {
         return (

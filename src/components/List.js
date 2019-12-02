@@ -10,7 +10,7 @@ export default class List extends Component {
         if(!socket){
             socket = io(':3002')
             socket.on('print_user', this.addUser)
-    
+            socket.on('chat', this.changeColor)
         } 
     }
 
@@ -21,9 +21,27 @@ export default class List extends Component {
             ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    ul.innerHTML += `<li class="list-group-item"><i class="far fa-poo"></i>${user.username}</li>`
+                    ul.innerHTML += `<li class="list-group-item" id=${user.username}><i class="far fa-poo"></i>${user.username}</li>`
                 }
            }) 
+        }
+    }
+
+    changeColor = (data) => {
+        let ul = document.getElementById('user-list');
+
+        if(data.msg === "guessed it right" ){
+            for(let i=0; i<ul.childNodes.length; i++){
+                if(ul.childNodes[i].id === data.user.username){
+                    ul.childNodes[i].style = "background:greenyellow";
+                }
+            }
+        }
+
+        if(data.sessionEnd){
+            for(let i=0; i<ul.childNodes.length; i++){
+                ul.childNodes[i].style = "background:white";        
+            } 
         }
     }
 
