@@ -27,64 +27,58 @@ export default class Popup extends Component {
       }
 
     componentDidUpdate(){
-      // console.log(this.state.addScore)
+      // console.log(this.state);
       this.renderModal();
     }
 
     renderModal = () => {
-      let title = document.getElementById('titleDiv');
-      let contentDiv = document.getElementById('contentDiv');
-      if(title && contentDiv){
-        if(this.state.msg !== "game over"){
-          //game not over
+      if(this.state.show){
+        let title = document.getElementById('titleDiv');
+        let contentDiv = document.getElementById('contentDiv');
+        if(title && contentDiv){
+              if(this.state.msg !== "game over"){
+                //game not over
 
-          if(this.state.round !== 1){
-            //not first round
-            title.innerText = `Round over`;
-            contentDiv.innerHTML =  `<p>the word is ${this.state.words[this.state.round-2]}</p>`;
-
-            for(const key in this.state.addScore){
-              contentDiv.innerHTML += `<p>${key}: +${this.state.addScore[key]}</p>`
-            }
+                    if(this.state.round !== 1&& this.state.round !== 0){
+                      //not first round
+                      title.innerText = `Round over`;
+                      contentDiv.innerHTML =  `<p>the word is ${this.state.words[this.state.round-2]}</p>`;
           
-            setTimeout(() => {
-              title.innerText = `Round ${this.state.round}`;
-              contentDiv.innerText = this.state.msg;
-  
-              setTimeout(() => {
-                this.handleClose();
-              }, 3000);
-            }, 3000);
-          }else{
-            //first round 
-            title.innerText = `Round ${this.state.round}`;
-            contentDiv.innerText = this.state.msg;
-            setTimeout(() => {
-              this.handleClose();
-            }, 3000);
-          }          
-
-        }else{
-          //game over
-          title.innerText = this.state.msg;
-          contentDiv.innerHTML =  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
-
-          contentDiv.innerHTML += "FINAL SCORE";
-
-            for(const key in this.state.scores){
-              contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
-            }
-
-          // setTimeout(() => {
-          //   console.log('!');
-
-          //   contentDiv.innerHTML = "";
-          //   contentDiv.innerHTML += "FINAL SCORE";
-
-          //   for(const key in this.state.scores){
-          //     contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
-          //   }
-          // }, 3000);
+                      for(const key in this.state.addScore){
+                        contentDiv.innerHTML += `<p>${key}: +${this.state.addScore[key]}</p>`
+                      }
+                    
+                      setTimeout(() => {
+                        title.innerText = `Round ${this.state.round}`;
+                        contentDiv.innerText = this.state.msg;
+                        setTimeout(() => {
+                          this.handleClose();
+                        }, 3000);
+                      }, 3000);
+                    }else{
+                      //first round 
+                      title.innerText = `Round ${this.state.round}`;
+                      contentDiv.innerText = this.state.msg;
+                      setTimeout(() => {
+                        this.handleClose();
+                      }, 3000);
+                    }          
+      
+              }else{
+                //game over
+                title.innerText = this.state.msg;
+                contentDiv.innerHTML =  `<p>the word for last round is ${this.state.words[this.state.words.length-1]}</p>`;
+      
+                contentDiv.innerHTML += "FINAL SCORE";
+      
+                for(const key in this.state.scores){
+                  contentDiv.innerHTML += `<p>${key}: ${this.state.scores[key]}</p>`
+                }
+                setTimeout(() => {
+                  this.handleClose();
+                  console.log('game over close modal');
+                }, 3000);
+              }
         }
       }
     }
@@ -98,38 +92,36 @@ export default class Popup extends Component {
     }
 
     printModal = (data) => {
+      // console.log(data);
       let message = "";
 
       if(!data.game_status){
-        if(this.props.currentUser && data.drawer){
-          if(this.props.currentUser.username === data.drawer.username){
-            message = `you need to draw ${data.word}`;
-          }else{
-            message = `${data.drawer.username} is drawing`;
-          }
-        }
-
-        if(data.sessionEnd && data.round !== 1){
-          let addedPoints = {};
-  
-          console.log('datat', data.scores);
-          console.log('state', this.state.addScore);
-          for(const key in this.state.scores){
-            if(this.state.addScore){
-              addedPoints[key] = data.scores[key] - this.state.addScore[key];
+          if(this.props.currentUser && data.drawer){
+            if(this.props.currentUser.username === data.drawer.username){
+              message = `you need to draw ${data.word}`;
             }else{
-              addedPoints[key] = data.scores[key];
+              message = `${data.drawer.username} is drawing`;
             }
           }
-  
-          this.setState({
-            addScore: addedPoints
-          })
-        }
+
+          if(data.sessionEnd && data.round !== 1){
+            let addedPoints = {};
+    
+            for(const key in this.state.scores){
+              if(this.state.addScore){
+                addedPoints[key] = data.scores[key] - this.state.addScore[key];
+              }else{
+                addedPoints[key] = data.scores[key];
+              }
+            }
+    
+            this.setState({
+              addScore: addedPoints
+            })
+          }
       }else{
         message = "game over"
       }
-
 
       this.setState({
         msg: message,

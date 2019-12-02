@@ -27,7 +27,7 @@ export default class StudentPage extends Component {
             ul.innerHTML = "";
             data.forEach(user => {
                 if( user !== null ){
-                    ul.innerHTML += `<li className="list-group-item"><i class="far fa-poo"></i> ${user.username}</li>`
+                    ul.innerHTML += `<li className='list-group-item'><i class="far fa-poo"></i> ${user.username}</li>`
                 }
            }) 
         }
@@ -38,7 +38,7 @@ export default class StudentPage extends Component {
             return (
                 <div className="studentPage">
                     <h3>Current Online Students</h3>
-                    <ul className="list-group" id="user-list"></ul>
+                    <ul className="list-group list-group-flush" id="user-list"></ul>
                     <NavLink to="/game" exact ><i className="fas fa-sign-in-alt"></i> join class</NavLink>
                 </div>
             )

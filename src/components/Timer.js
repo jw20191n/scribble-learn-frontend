@@ -14,17 +14,28 @@ export default class Timer extends Component {
     }
 
     getTimeLeft = (data) => {
-        let div = document.getElementById('timer');
-        if(div && this.props.currentUser){
-            div.innerText = data.seconds;
+        let countdownNumber = document.getElementById('countdown-number');
+
+        if(countdownNumber && this.props.currentUser){
+            countdownNumber.textContent = data.seconds;
         }
     }
+
+    // printCircle = (data) => {
+    //     let circle = document.querySelector('circle');
+    //     if(data.seconds === 30){
+    //         circle.style.animation = "countdown 30s linear infinite forwards";
+    //     }
+    // }
 
     render() {
         return (
             <div className="game-div">
-                <div id="timer">
-                    
+                <div id="countdown">
+                    <div id="countdown-number"></div>
+                    <svg>
+                        <circle r="18" cx="20" cy="20"></circle>
+                    </svg>
                 </div>
             </div>
         )

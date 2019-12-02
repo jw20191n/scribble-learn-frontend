@@ -24,7 +24,7 @@ class Game extends Component {
         if(!socket){
             socket = io(':3002')
             socket.on('current_user', this.printWord)
-            socket.emit('start', {start: true, user: this.props.currentUser})
+            socket.emit('start', { user: this.props.currentUser })
         } 
     }
 

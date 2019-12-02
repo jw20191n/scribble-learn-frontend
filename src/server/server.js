@@ -25,7 +25,7 @@ var gameover = false;
 let wordGuessed = {}; //{ currentWord: userGuessed }
 let userScore = {}; //{ username: score }
 let popup = true;
-let addScore = {};//{ username: score } not cumulative
+let usersInGame = [];
 
 //set first currentWord
 let currentWord = words[Math.floor(Math.random() * words.length)];
@@ -41,7 +41,7 @@ io.on('connection', function (socket) {
       socket.emit('draw_line', { line: line_history[i] } );
    }
    socket.emit('print_user', users);
-   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup, addScore: addScore});
+   socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});
 
    currentDrawer = users[index];
 
@@ -59,7 +59,6 @@ io.on('connection', function (socket) {
    socket.on('print_user', function(data){
        users.push(data.user);
        userScore[data.user.username] = 0;
-       addScore[data.user.username] = 0;
        io.emit('print_user',  users);
        console.log(users.length, " users");
    })
@@ -70,8 +69,8 @@ io.on('connection', function (socket) {
    socket.on('start', function(data){
 
         let user = data.user;
-        
-        let timer = setInterval(setTimer, 1000);
+        usersInGame.push(user);
+        let timer;
 
         function setTimer(user){
             if (seconds >= 1) { 
@@ -79,8 +78,6 @@ io.on('connection', function (socket) {
                 //send time_left to Timer.js to print out the time
                 io.emit('time_left', { seconds: seconds })
             } else if(seconds === 0 ){ 
-                clearInterval(timer);
-        
                 sessionEnd = true;
                 usersGuessed = [];
                 //clear canvas
@@ -106,24 +103,25 @@ io.on('connection', function (socket) {
                     console.log('session end due to time out. words left: ', words);
                     io.emit('chat', { user: user, msg: "time is up"}); 
                 }else{
+                    clearInterval(timer);
                     gameover = true;
-                    round = 1;
+                    round = 0;
                     index = 0;
                     users = [];
-                    // words = ["apple", "pear", "banana"];
-                    // currentWord = words[Math.floor(Math.random() * words.length)];
-                    // arrayIndex = words.indexOf(currentWord);
-                    // words.splice(arrayIndex, 1);
-                    console.log('start game over', 'words --->', words, 'currentWord --->', currentWord, 'currentDrawer --->', currentDrawer, 'users--->', users, 'round: ', round);
+                    wordGuessed = [];
+                    usersInGame = [];
+                    console.log('start game over');
                 }
-                io.emit('time_left', { seconds: seconds });
-                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup, addScore: addScore});  
+                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});  
             }
+        }
+
+        //the timer is set when first player join the playroom
+        if(usersInGame.length === users.length){
+            timer = setInterval(setTimer, 1000);
         }
         
    })
-
-   
 
    //print chat
    socket.on('chat', function(data){
@@ -136,9 +134,6 @@ io.on('connection', function (socket) {
 
             //if two players, drawer got 10; if multiple, drawer got 1/n-1
             userScore[currentDrawer.username] += Math.abs(10/(users.length-1));
-          
-
-            console.log('userScore ----> ', userScore);
 
             //if all the users guessed right, session ends
             if(usersGuessed.length + 1 === users.length){
@@ -165,28 +160,18 @@ io.on('connection', function (socket) {
                     seconds = 30;
                     round += 1;
                     console.log('session end all users guessed right. words left: ', words);
+                    io.emit('chat', { user: data.user, msg: "guessed it right"}); 
+                    io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup}); 
                 }else{
-                    // gameover = true;
-                    // round = 1;
-                    // index = 0;
-                    seconds = 0;
-                    // currentDrawer = users[index];
-                    // users = [];
-                    // words = ["apple", "pear", "banana"];
-                    // currentWord = words[Math.floor(Math.random() * words.length)];
-                    // arrayIndex = words.indexOf(currentWord);
-                    // words.splice(arrayIndex, 1);
-                    // console.log('chat game over', 'words --->', words, 'currentWord --->', currentWord, 'currentDrawer --->', currentDrawer, 'users--->', users, 'round: ', round);
-
+                  seconds = 0;  
                 }
             //still has user not guessing right
             }else{
                 sessionEnd = false;
                 popup = false;
-            }
-
-             io.emit('chat', { user: data.user, msg: "guessed it right"}); 
-             io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup, addScore: addScore});  
+                io.emit('chat', { user: data.user, msg: "guessed it right"}); 
+                io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores: userScore, popup: popup}); 
+            } 
 
         //users sent in wrong answer, session continues
        } else{
