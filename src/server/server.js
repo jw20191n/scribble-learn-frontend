@@ -69,9 +69,11 @@ io.on('connection', function (socket) {
    //trigger the timer
    socket.on('start', function(data){
 
+        let user = data.user;
+        
         let timer = setInterval(setTimer, 1000);
 
-        function setTimer(data){
+        function setTimer(user){
             if (seconds >= 1) { 
                 seconds = seconds - 1;
                 //send time_left to Timer.js to print out the time
@@ -102,7 +104,7 @@ io.on('connection', function (socket) {
                     }
                     currentDrawer = users[index];
                     console.log('session end due to time out. words left: ', words);
-                    io.emit('chat', { user: data.user, msg: "time is up"}); 
+                    io.emit('chat', { user: user, msg: "time is up"}); 
                 }else{
                     gameover = true;
                     round = 1;

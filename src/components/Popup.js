@@ -27,6 +27,7 @@ export default class Popup extends Component {
       }
 
     componentDidUpdate(){
+      // console.log(this.state.addScore)
       this.renderModal();
     }
 
@@ -98,7 +99,6 @@ export default class Popup extends Component {
 
     printModal = (data) => {
       let message = "";
-      // console.log(data.scores)
 
       if(!data.game_status){
         if(this.props.currentUser && data.drawer){
@@ -108,22 +108,28 @@ export default class Popup extends Component {
             message = `${data.drawer.username} is drawing`;
           }
         }
+
+        if(data.sessionEnd && data.round !== 1){
+          let addedPoints = {};
+  
+          console.log('datat', data.scores);
+          console.log('state', this.state.addScore);
+          for(const key in this.state.scores){
+            if(this.state.addScore){
+              addedPoints[key] = data.scores[key] - this.state.addScore[key];
+            }else{
+              addedPoints[key] = data.scores[key];
+            }
+          }
+  
+          this.setState({
+            addScore: addedPoints
+          })
+        }
       }else{
         message = "game over"
       }
 
-
-      if(data.sessionEnd){
-        let addedPoints = {};
-
-        for(const keys in this.state.scores){
-          addedPoints[keys] = data.scores[keys] - this.state.scores[keys];
-        }
-
-        this.setState({
-          addScore: addedPoints
-        })
-      }
 
       this.setState({
         msg: message,
