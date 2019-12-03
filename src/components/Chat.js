@@ -68,9 +68,9 @@ export default class Chat extends Component {
             }else{
                 if(data.user){
                     if(data.msg === "guessed it right"){
-                        div.innerHTML += `<p class="green">${data.user.username}: ${data.msg}</p>`
+                        div.innerHTML += `<p class="green chatMsg">${data.user.username}: ${data.msg}</p>`
                     }else{
-                        div.innerHTML += `<p>${data.user.username}: ${data.msg}</p>`
+                        div.innerHTML += `<p class="chatMsg">${data.user.username}: ${data.msg}</p>`
                     }
                 }else{
                     div.innerHTML += `<p>noname: ${data.msg}</p>`

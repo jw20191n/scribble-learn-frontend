@@ -7,19 +7,25 @@ export default class NavBar extends Component {
 
         if(user === null ){
            return( 
-                <nav className='navbar navbar-expand-lg navbar-light bg-light' >
+                <nav className='navbar navbar-expand navbar-light bg-light' >
                     <ul className='navbar-nav mr-auto'>
                         <li className='nav-item'><NavLink to="/login" exact className="nav-link">Login</NavLink></li>
                         <li className='nav-item'><NavLink to="/signup" exact className="nav-link">Sign Up</NavLink></li>
+                    </ul>
+                    <ul className='nav navbar-nav navbar-right'>
+                        <span className="logo">Scr<i className="fal fa-pencil-alt"></i>bble Learn</span>
                     </ul>
                  </nav>
             )
         }else{
             return( 
-                <nav className='navbar navbar-expand-lg navbar-light dg-light' >
+                <nav className='navbar navbar-expand navbar-light dg-light' >
                     <span className="navbar-brand">{user.username}</span>
                     <ul className='navbar-nav mr-auto'>
                         <li className='nav-item'><NavLink to="/login" exact className="nav-link">Logout</NavLink></li>
+                    </ul>
+                    <ul className='nav navbar-nav navbar-right'>
+                        <span className="logo">Scr<i className="fal fa-pencil-alt"></i>bble Learn</span>
                     </ul>
                 </nav>
             )

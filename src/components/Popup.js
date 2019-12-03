@@ -144,19 +144,14 @@ export default class Popup extends Component {
     render() {
         return (
             <Modal show={this.state.show} onHide={this.handleClose} >
-            <Modal.Header closeButton>
-              <Modal.Title>
+            <Modal.Header className="modalTitle">
+              <Modal.Title >
                 <div id="titleDiv"></div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div id="contentDiv"></div>
             </Modal.Body>
-            <Modal.Footer>
-              <button onClick={this.handleClose}>
-                Close
-              </button>
-            </Modal.Footer>
           </Modal>
         )
     }

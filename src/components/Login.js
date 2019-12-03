@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class Login extends Component {
     
     state = { 
@@ -10,7 +9,7 @@ export default class Login extends Component {
     }
 
     componentDidMount(){
-        this.props.signOut()
+        this.props.signOut();
     }
 
     handleChange = (event) => {
@@ -58,10 +57,10 @@ export default class Login extends Component {
         return (
             <div className="bgDiv">
                 <div className="login"> 
-                    <h3 className="formTitle">Login</h3> 
+                    <h3 className="formTitle" >Login</h3> 
                     <form className="auth-form" onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Username</label>
+                            <label >Username</label>
                             <input type="text" name="username" className="form-control" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
                         </div>
                         <div className="form-group">    

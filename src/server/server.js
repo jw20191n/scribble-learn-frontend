@@ -43,8 +43,6 @@ io.on('connection', function (socket) {
    socket.emit('print_user', users);
    socket.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});
 
-   currentDrawer = users[index];
-
    //canvas drawing communication
    // add handler for message type "draw_line".
    socket.on('draw_line', function (data) {
@@ -59,15 +57,16 @@ io.on('connection', function (socket) {
    socket.on('print_user', function(data){
        users.push(data.user);
        userScore[data.user.username] = 0;
+       currentDrawer = users[index];
        io.emit('print_user',  users);
-       console.log(users.length, " users");
+       console.log(users.length, 'users');
    })
 
 
    //when user join Game component, they send currentUser and "start:true" to server
    //trigger the timer
    socket.on('start', function(data){
-
+        // console.log(data.user.username);
         let user = data.user;
         usersInGame.push(user);
         let timer;
@@ -107,10 +106,10 @@ io.on('connection', function (socket) {
                     io.emit('time_left', { seconds: seconds })
                     gameover = true;
                     round = 0;
-                    index = 0;
-                    users = [];
-                    wordGuessed = [];
-                    usersInGame = [];
+                    // index = 0;
+                    // users = [];
+                    // wordGuessed = [];
+                    // usersInGame = [];
                     console.log('start game over');
                 }
                 io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});  
@@ -192,18 +191,19 @@ io.on('connection', function (socket) {
    //when client disconnets
    socket.on('disconnect', function(){
     console.log('user disconnected');
-    // users = [];
-    // line_history = [];
-    // round = 1;
-    // usersGuessed = [];
-    // index = 0;
-    // words = ["apple", "pear", "banana"];
-    // currentDrawer = null;
-    // seconds = 30;
-    // sessionEnd = true;
-    // gameover = false;
-    // wordGuessed = {};
-    // userScore = {};
-    // popup = true;
+    users = [];
+    usersGuessed = [];
+    seconds = 30;
+    words = ["apple", "pear", "banana"];
+    round = 1;
+    index = 0;
+    currentDrawer = users[index];
+    gameover = false;
+    wordGuessed = {}; //{ currentWord: userGuessed }
+    userScore = {}; //{ username: score }
+    popup = true;
+    usersInGame = [];
+    sessionEnd = true;
+    currentWord = words[Math.floor(Math.random() * words.length)];
   });
 });

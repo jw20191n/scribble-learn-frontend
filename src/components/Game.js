@@ -61,7 +61,8 @@ class Game extends Component {
                 }
             }else if(data.game_status){
                 console.log('game ended');
-                setTimeout(()=>{ this.props.history.push('/student') },5000)
+                setTimeout(()=>{ this.props.history.push('/login') },5000)
+                socket.disconnect();
             }
         }
         
