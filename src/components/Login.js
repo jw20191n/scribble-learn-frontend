@@ -57,14 +57,14 @@ export default class Login extends Component {
         return (
             <div className="bgDiv">
                 <div className="login"> 
-                    <h3 className="formTitle" >Login</h3> 
+                    <h3 className="formTitle" data-toggle="tooltip" data-placement="top" title="登陆">Login</h3> 
                     <form className="auth-form" onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label >Username</label>
+                            <label data-toggle="tooltip" data-placement="top" title="用户名">Username</label>
                             <input type="text" name="username" className="form-control" placeholder="Username" onChange={this.handleChange} value={this.state.username}/>
                         </div>
                         <div className="form-group">    
-                            <label>Password</label>
+                            <label data-toggle="tooltip" data-placement="right" title="密码">Password</label>
                             <input type="text" name="password" className="form-control" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
                         </div>
                         <div className="form-group">         
@@ -73,7 +73,7 @@ export default class Login extends Component {
                                 <option value="admin">Admin</option>
                             </select>
                         </div>            
-                        <button type="submit" value="submit" className="btn btn-primary">Submit</button>
+                        <button type="submit" value="submit" className="btn btn-primary" data-toggle="tooltip" data-placement="right" title="提交">Submit</button>
                     </form>
                 </div>
             </div>

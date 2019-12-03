@@ -39,9 +39,9 @@ export default class StudentPage extends Component {
                 <div id="studentPage-Back">
                     <div id='img1'></div>
                     <div className="studentPage">
-                        <h3>Current Online Students</h3>
+                        <h3 data-toggle="tooltip" data-placement="top" title="当前在线学生">Current Online Students</h3>
                         <ul className="list-group list-group-flush" id="user-list"></ul>
-                        <NavLink to="/game" exact ><i className="fas fa-sign-in-alt"></i> join class</NavLink>
+                        <NavLink to="/game" exact data-toggle="tooltip" data-placement="top" title="加入课程"><i className="fas fa-sign-in-alt"></i> join class</NavLink>
                     </div>
                     <div id='img2'></div>
                     <div id='img3'></div>
