@@ -138,6 +138,24 @@ io.on('connection', function (socket) {
                 usersGuessed.push(data.user);
                 wordGuessed[currentWord] = usersGuessed;
 
+                fetch('http://localhost:3001/guessrights',{
+                    method: "POST",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: this.state.username,
+                        password: this.state.passwordConfirmation,
+                        lesson_id: 1
+                    })
+                }).then(resp=>resp.json())
+                .then(data=> {
+                    console.log(data);
+                    this.props.setCurrentUser(data)
+                    this.props.history.push('/student')
+                })
+                
                 //user who guess right got 10 points
                 userScore[data.user.username] += 10;
     

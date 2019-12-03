@@ -9,7 +9,7 @@ export default class SignUp extends Component {
     }
 
     handleChange = (event) => {
-        if(event.target.type==="text"){
+        if(event.target.type === "text"){
             this.setState({
                 [event.target.name]:event.target.value
             })
@@ -18,7 +18,6 @@ export default class SignUp extends Component {
                 type:event.target.value
             })
         }
-        // console.log(this.state)
     }
 
     handleSubmit = (event) => {
@@ -53,18 +52,16 @@ export default class SignUp extends Component {
                         username: this.state.username,
                         password: this.state.passwordConfirmation
                     })
-                }).then(resp=>resp.json())
-                .then(data=> {
+                }).then( resp => resp.json() )
+                .then( data => {
                     console.log(data);
                     this.props.setCurrentUser(data)
                     this.props.history.push('/admin')
                 })
-            }
-            
+            } 
         }else{
             alert('wrong!')
         }
-   
     }
     
     render() {

@@ -13,7 +13,7 @@ export default class Login extends Component {
     }
 
     handleChange = (event) => {
-        if(event.target.type==="text"){
+        if(event.target.type === "text"){
             this.setState({
                 [event.target.name]:event.target.value
             })

@@ -134,12 +134,13 @@ div .signup{
 }
 
 #img2{
-  background: url(../src/gif2.gif);
+  background: url(../src/gif4.gif);
   background-size: contain;
   width: 200px;
   height: 200px;
   position: relative;
   margin-left: 70%;
+  margin-top: 30px;
 }
 
 #img3{
