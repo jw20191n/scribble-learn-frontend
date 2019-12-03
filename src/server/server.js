@@ -11,7 +11,6 @@ server.listen(3002);
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:3002");
 
-
 var line_history = [];// array of all lines drawn
 let currentDrawer = null;// will store the current drawing user
 var users = [];//all user in the room
@@ -106,10 +105,6 @@ io.on('connection', function (socket) {
                     io.emit('time_left', { seconds: seconds })
                     gameover = true;
                     round = 0;
-                    // index = 0;
-                    // users = [];
-                    // wordGuessed = [];
-                    // usersInGame = [];
                     console.log('start game over');
                 }
                 io.emit('current_user', { drawer: currentDrawer, word: currentWord, game_status: gameover, sessionEnd: sessionEnd, round: round, guessed: wordGuessed, scores:userScore, popup: popup});  
@@ -138,24 +133,6 @@ io.on('connection', function (socket) {
                 usersGuessed.push(data.user);
                 wordGuessed[currentWord] = usersGuessed;
 
-                fetch('http://localhost:3001/guessrights',{
-                    method: "POST",
-                    headers:{
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: this.state.username,
-                        password: this.state.passwordConfirmation,
-                        lesson_id: 1
-                    })
-                }).then(resp=>resp.json())
-                .then(data=> {
-                    console.log(data);
-                    this.props.setCurrentUser(data)
-                    this.props.history.push('/student')
-                })
-                
                 //user who guess right got 10 points
                 userScore[data.user.username] += 10;
     

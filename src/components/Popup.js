@@ -72,7 +72,7 @@ export default class Popup extends Component {
                 contentDiv.innerHTML += "<p class='centerp'>FINAL SCORE</p>";
       
                 let scores = this.state.scores;
-                let scoresSorted = Object.keys(scores).sort(function(a,b){return scores[a]-scores[b]});
+                let scoresSorted = Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]});
 
                 for(const key in scoresSorted){
                   contentDiv.innerHTML += `<p class='centerp'>${parseInt(key)+1}: ${scoresSorted[key]} - ${scores[scoresSorted[key]]} points</p>`

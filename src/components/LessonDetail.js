@@ -72,7 +72,8 @@ export default class LessonDetail extends Component {
 
         return(
             <div>
-                <div className="lesson-info" id={this.props.id}>Words: 
+                <div>Words:
+                    <div className="lesson-info" id={this.props.id}></div>
                 </div>
                 <form className="auth-form" onSubmit={this.addWord}>
                     <div className="form-group">
