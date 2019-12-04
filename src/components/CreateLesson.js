@@ -5,6 +5,10 @@ export default class CreateLesson extends Component {
         name: ""
     }
 
+    componentDidUpdate(){
+        // console.log(this.state.name)
+    }
+
     handleChange = (event) => {
         this.setState({
             [event.target.name]:event.target.value
@@ -13,7 +17,7 @@ export default class CreateLesson extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-
+        console.log(this.props.currentUser);
         if(this.props.currentUser){
             fetch('http://localhost:3001/lessons',{
                 method: "POST",
@@ -28,8 +32,10 @@ export default class CreateLesson extends Component {
             }).then(resp => resp.json())
             .then(data => {
                 console.log(data);
-                this.props.history.push('/admin');
                 alert('you successfully created the class!')
+                this.setState({
+                    name: ""
+                })
             })
         }
     }
@@ -37,18 +43,11 @@ export default class CreateLesson extends Component {
     render() {
         return (
             <div className="create-lesson"> 
-                <form className="auth-form" onSubmit={this.handleSubmit}>
-                    <ul className="form-ul">
-                        <li>
-                            <label>Class Name</label>
-                            <input type="text" name="name" placeholder="class name" onChange={this.handleChange} value={this.state.name}/>
-                        </li>
-                        <li>
-                            <input type="submit" value="submit" className="submit-btn" />
-                        </li>
-                    </ul>
-                   
-                </form>
+                <form className="lessonForm" onSubmit={this.handleSubmit}>
+                    <label>Add Lesson:</label>
+                    <input type="text" name="name" placeholder="class name" onChange={this.handleChange} value={this.state.name}/>
+                    <button type="submit" value="submit" className="btn btn-primary">Add</button>
+                </form>    
             </div>
         )
     }

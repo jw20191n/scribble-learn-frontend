@@ -46,11 +46,14 @@ export default class StudentHistory extends Component {
         .then(data => {
             // console.log(data);
             let lessonGuessedWords = data.filter(word => word.lesson_id === this.props.currentUser.lesson_id);
-            let rightWords = lessonGuessedWords.filter(word => word.student_id === this.props.currentUser.id);
+            let rightWords = lessonGuessedWords.filter(word => word.student_id === this.props.currentUser.id && word.student_id !== word.drawer_id);
             // rightWords = rightWords.filter(word => word.lesson_id === this.props.currentUser.lesson_id);
             console.log("rightWords--->", rightWords);
 
             let right = [];
+            let wrongWords = [];
+            let drawedWords = [];
+
             rightWords.forEach(wordObj=>{
                 this.state.words.forEach(word=>{
                     if(wordObj.word_id === word.id){
@@ -63,7 +66,6 @@ export default class StudentHistory extends Component {
             console.log("right", right);
 
             let allWords = this.state.words.map(word => word.text);
-            let drawedWords = [];
             let drawed = lessonGuessedWords.filter(word => word.drawer_id === this.props.currentUser.id);
             drawed.forEach(wordObj=>{
                 this.state.words.forEach(word=>{
@@ -71,12 +73,14 @@ export default class StudentHistory extends Component {
                         if(!drawedWords.includes(word.text)){
                             drawedWords.push(word.text);
                         }
+                        if(wordObj.student_id === wordObj.drawer_id){
+                            wrongWords.push(word.text);
+                        }
                     }
                 })   
             })
             console.log('drawed', drawedWords);
 
-            let wrongWords = [];
             allWords.forEach(word=>{
                 if(!right.includes(word) && !drawedWords.includes(word)){
                     wrongWords.push(word);
@@ -98,7 +102,7 @@ export default class StudentHistory extends Component {
         drawedDiv.innerHTML = "";
 
         if(this.state.wrong.length === 0 ){
-            div.innerHTML += `<p>Good job!!!! You got all the word</p>`
+            div.innerHTML += `<p>Good job!!!! You got all the words</p>`
         }else{
             this.state.wrong.forEach(word => {
                 div.innerHTML += `<p>${word}</p>`
@@ -113,7 +117,7 @@ export default class StudentHistory extends Component {
     render() {
         return( 
             <div className="std-history">
-                You drawed:
+                You drew:
                 <div className="history-inner"></div>
                 Study List:
                 <div className="history-inner"></div>

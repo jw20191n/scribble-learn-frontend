@@ -79,6 +79,10 @@ io.on('connection', function (socket) {
             } else if(seconds === 0 ){ 
                 sessionEnd = true;
 
+                if(usersGuessed.length === 0){
+                    io.emit('guessright', { user: currentDrawer, drawer: currentDrawer, correct: true, word: currentWord})
+                }
+
                 usersGuessed = [];
                 //clear canvas
                 line_history = [];
@@ -146,7 +150,6 @@ io.on('connection', function (socket) {
                 //if all the users guessed right, session ends
                 if(usersGuessed.length + 1 === users.length){
                     sessionEnd = true;
-                    usersGuessed = [];
     
                     //reset currentUser
                     if(index < users.length - 1 ){
@@ -162,6 +165,7 @@ io.on('connection', function (socket) {
     
                     //reset currentWord
                     if(words.length>0 ){
+                        usersGuessed = [];
                         currentWord = words[Math.floor(Math.random() * words.length)];
                         arrayIndex = words.indexOf(currentWord);
                         words.splice(arrayIndex, 1);

@@ -45,8 +45,8 @@ class App extends React.Component {
             <Route exact path='/student' render={(routerProps) => <StudentPage currentUser={this.state.currentUser} {...routerProps}  /> } /> 
             <Route exact path='/stdprofile' render={(routerProps) => <StudentProfile currentUser={this.state.currentUser} setCurrentUser={this.setCurrentUser} {...routerProps} /> } /> 
             <Route exact path='/stdhistory' render={(routerProps) => <StudentHistory currentUser={this.state.currentUser} {...routerProps} /> } /> 
-            <Route exact path='/admin' render={() => <AdminPage currentUser={this.state.currentUser}/> } /> 
-            <Route exact path='/createlesson' render={(routerProps) => <CreateLesson currentUser={this.state.currentUser} {...routerProps}/> } /> 
+            <Route exact path='/admin' render={(routerProps) => <AdminPage currentUser={this.state.currentUser}{...routerProps}/> } /> 
+            <Route exact path='/createlesson' render={() => <CreateLesson currentUser={this.state.currentUser} /> } /> 
             <Route exact path='/lessons' render={(routerProps) => <Lessons currentUser={this.state.currentUser} {...routerProps}/> } /> 
             <Route exact path='/canvas' render={() => <Canvas currentUser={this.state.currentUser} /> } /> 
             <Route exact path='/game' render={(routerProps) => <Game currentUser={this.state.currentUser} {...routerProps}/> } /> 

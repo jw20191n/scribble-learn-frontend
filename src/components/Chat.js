@@ -84,6 +84,7 @@ export default class Chat extends Component {
     sendGuessright = (data) => {
         let word = data.word
         // console.log(data.user.id === this.props.currentUser.id);
+
         if(data.user.id === this.props.currentUser.id){
             this.createGuessrights(data.user, word, data.drawer);
         } 

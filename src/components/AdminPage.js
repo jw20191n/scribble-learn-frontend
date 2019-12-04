@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import CreateLesson from './CreateLesson';
 
 
 export default class AdminPage extends Component {
@@ -22,10 +22,8 @@ export default class AdminPage extends Component {
             return (
                 <div >
                     <h1>Welcome, {this.props.currentUser.username}!</h1>
-                    <ul className='admin-btn-list'>
-                        <li className='admin-page-btn'><NavLink to="/createlesson" exact>Create Lesson</NavLink></li>
-                        <li className='admin-page-btn'><NavLink to="/lessons" exact >All Lessons</NavLink></li>
-                     </ul>
+                    <CreateLesson currentUser={this.props.currentUser}/>
+                    
                 </div>
             )
         }else{
