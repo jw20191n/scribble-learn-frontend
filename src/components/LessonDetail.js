@@ -13,11 +13,11 @@ export default class LessonDetail extends Component {
 
     componentDidUpdate(){
         this.printWords();
+        console.log(this.state.words);
     }
 
 
     handleChange = (event) => {
-        console.log(event.target.value);
         this.setState({
             [event.target.name]:event.target.value
         })
@@ -61,13 +61,13 @@ export default class LessonDetail extends Component {
             })
         }).then(resp => resp.json())
         .then(data => {
+            console.log(data);
             this.setState({
-                words: [...this.state.words, this.state.word]
+                words: [...this.state.words, data]
             })
         })
     }
     
-
     render() {
 
         return(

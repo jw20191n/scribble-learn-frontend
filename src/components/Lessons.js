@@ -36,8 +36,6 @@ export default class CreateLesson extends Component {
                 return(
                     <div className="card" key={i}>
                         <p>Name: {lesson.name}</p>
-                        <p>Passcode: {lesson.passcode}</p>
-                        <p>Description: {lesson.description}</p>
                         {/* <button type="button" className="btn btn-secondary" onClick={()=>this.openDetail(lesson.id)}>detail</button> */}
                         <LessonDetail id={lesson.id}/>
                     </div>
@@ -47,11 +45,6 @@ export default class CreateLesson extends Component {
             return(<div>You have no lessons, please create one</div>) 
         }
     }
-
-    // openDetail = (id) => {
-    //     console.log(id);
-    //     return <LessonDetail id={id}/>
-    // }
     
     render() {
         return(

@@ -23,8 +23,8 @@ export default class AdminPage extends Component {
                 <div >
                     <h1>Welcome, {this.props.currentUser.username}!</h1>
                     <ul className='admin-btn-list'>
-                        {/* <li className='admin-page-btn'><NavLink to="/createlesson" exact>Create Lesson</NavLink></li>
-                        <li className='admin-page-btn'><NavLink to="/lessons" exact >All Lessons</NavLink></li> */}
+                        <li className='admin-page-btn'><NavLink to="/createlesson" exact>Create Lesson</NavLink></li>
+                        <li className='admin-page-btn'><NavLink to="/lessons" exact >All Lessons</NavLink></li>
                      </ul>
                 </div>
             )

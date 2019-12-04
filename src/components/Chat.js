@@ -21,7 +21,7 @@ export default class Chat extends Component {
     }
 
     componentDidUpdate(){
-        // console.log()
+   
     }
 
     handleChange = (event) => {
@@ -82,7 +82,7 @@ export default class Chat extends Component {
 
 
     sendGuessright = (data) => {
-
+        console.log('in here');
         if(data.user === this.props.currentUser){
             let foundWord = {};
         
@@ -90,7 +90,7 @@ export default class Chat extends Component {
             .then(resp => resp.json())
             .then(resp => {
                 foundWord = resp.find(obj => obj.text === data.word )
-                // console.log(foundWord.text);
+                console.log(foundWord.text);
                 fetch('http://localhost:3001/guessrights',{
                     method: "POST",
                     headers:{
