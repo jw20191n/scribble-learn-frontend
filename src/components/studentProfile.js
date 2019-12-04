@@ -6,14 +6,8 @@ import React, { Component } from 'react';
 export default class StudentProfile extends Component {
     
     state = {
-        lesson_id: null
+        lesson_id: ""
     }
-
-
-    componentDidMount(){
-
-    }
-
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -26,7 +20,7 @@ export default class StudentProfile extends Component {
                     "Accept": "application/json"
                 },
                 body: JSON.stringify({
-                    lesson_id: this.state.lesson_id
+                    lesson_id: parseInt(this.state.lesson_id)
                 })
             }).then(resp=>resp.json())
             .then(data=> {
@@ -40,24 +34,21 @@ export default class StudentProfile extends Component {
 
     handleChange = (event) => {
         this.setState({
-            lesson_id: parseInt(event.target.value)
+            lesson_id: event.target.value
         }) 
     }
     
     render() {
         return( 
             <div className="std-profile">
-               <form className="auth-form" onSubmit={this.handleSubmit}>
-                    <ul className="form-ul">
-                        <li>
-                            <label>Lesson Id</label>
-                            <input type="text" name="lesson_id" placeholder="lesson id" onChange={this.handleChange} value={this.state.name}/>
-                        </li>
-                        <li>
-                            <input type="submit" value="submit" className="submit-btn" />
-                        </li>
-                    </ul>
-                </form>
+                <div id="snow"> 
+                    <form className="codeForm" onSubmit={this.handleSubmit}>
+                        <label className="profile-label">Please type the secret code to join class</label>
+                        <input type="text" name="lesson_id" placeholder="Secret Code" onChange={this.handleChange} value={this.state.lesson_id}/>
+                        <button type="submit" value="submit" className="btn btn-primary">Join</button>
+                    </form>  
+                    <div id='img4'></div>
+                </div>
             </div>
         )
 

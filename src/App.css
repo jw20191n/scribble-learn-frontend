@@ -167,7 +167,6 @@ div .signup{
 }
 
 .canvasDiv{
-
   width:100%;
 }
 
@@ -229,10 +228,6 @@ li.list{
   text-align: center;
 }
 
-.modal{
-  /* border:none; */
-}
-
 
 /* ----------------------   NavBar.js  ---------------------- */
 .logo{
@@ -242,7 +237,6 @@ li.list{
 
 nav{
   box-shadow: 0 1px 1px 1px rgba(0,0,0,.2);
-  /* background-color: rgb(204, 220, 250); */
 }
 
 .modalTitle{
@@ -253,4 +247,44 @@ nav{
 
 .titleDiv{
   text-align: center;
+}
+
+
+/* ---------------------------------  StudentProfile.js    ---------------------------- */
+.std-profile {
+  text-align: center;
+  font-family: 'Mali', cursive;
+  font-weight: bold;
+  background-color: lightblue;
+  height: 100vh;
+}
+
+.profile-label{
+  margin: 5px;
+}
+
+.codeForm{
+  padding-top: 20%;
+}
+
+#img4{
+  background: url(../src/gif9.gif);
+  background-size: contain;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin-top: 5%;
+  margin-left: 70%;
+}
+
+#snow {
+  background: url(../src/snow.gif);
+}
+
+@media only screen and (max-width: 1020px) {
+  #img4{
+    margin-top: 25%;
+    margin-left: 70%;
+  }
+
 }
