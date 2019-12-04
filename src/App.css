@@ -277,9 +277,32 @@ nav{
   margin-left: 70%;
 }
 
-#snow {
-  background: url(../src/snow.gif);
+
+/* -------------------   StudentHistory.js   ------------------- */
+.std-history{
+  background: rgb(249, 245, 244);
+  height: 100vh;
+  width: 100%;
 }
+
+.std-bg{
+  background: url(../src/note_new.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height:70%;
+}
+
+.history-title{
+  font-family: 'Mali', cursive;
+  font-weight: bold;
+}
+
+.std-text{
+  padding-top: 8%;
+  padding-left: 40%;
+}
+
 
 @media only screen and (max-width: 1020px) {
   #img4{
@@ -287,4 +310,8 @@ nav{
     margin-left: 70%;
   }
 
+  .std-text{
+    padding-top:12%;
+    padding-left:30%;
+  }
 }

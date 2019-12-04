@@ -117,10 +117,14 @@ export default class StudentHistory extends Component {
     render() {
         return( 
             <div className="std-history">
-                You drew:
-                <div className="history-inner"></div>
-                Study List:
-                <div className="history-inner"></div>
+                <div className="std-bg">
+                    <div className="std-text">
+                        <h5 className="history-title">You drew:</h5>
+                        <div className="history-inner"></div>
+                        <h5 className="history-title">Study List:</h5>
+                        <div className="history-inner"></div>
+                    </div>
+                </div>
             </div>
         )
 
