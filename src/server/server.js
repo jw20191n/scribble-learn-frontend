@@ -17,6 +17,10 @@ var users = [];//all user in the room
 var usersGuessed = [];//array of user who guessed a particular word
 let seconds = 30;//set time
 let words = ["apple", "pear", "banana"];
+// let wordstesting = () => {
+//     fetch('http://localhost:3001/words').then(resp => resp.json()).then(data => console.log(data))
+// }
+// wordstesting();
 let round = 1;
 var index = 0;
 let sessionEnd = true;

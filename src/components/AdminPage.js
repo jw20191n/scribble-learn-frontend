@@ -20,10 +20,11 @@ export default class AdminPage extends Component {
 
         if(this.props.currentUser){
             return (
-                <div >
-                    <h1>Welcome, {this.props.currentUser.username}!</h1>
-                    <CreateLesson currentUser={this.props.currentUser}/>
-                    
+                <div className="admin-pg">
+                    <div className="admin-text">
+                        <h1>Welcome, {this.props.currentUser.username}!</h1>
+                        <CreateLesson currentUser={this.props.currentUser}/>
+                    </div>
                 </div>
             )
         }else{

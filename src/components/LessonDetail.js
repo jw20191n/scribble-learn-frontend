@@ -75,11 +75,9 @@ export default class LessonDetail extends Component {
                 <div>Words:
                     <div className="lesson-info" id={this.props.id}></div>
                 </div>
-                <form className="auth-form" onSubmit={this.addWord}>
-                    <div className="form-group">
-                        <label>add word to class</label>
-                        <input type="text" name="word" className="form-control" placeholder="please type in word you want to add" onChange={this.handleChange} value={this.state.word}/>
-                    </div>
+                <form className="lessonForm" onSubmit={this.addWord}>
+                    <label>add word to class</label>
+                    <input type="text" name="word" className="form-control" placeholder="please type in word you want to add" onChange={this.handleChange} value={this.state.word}/>
                     <button type="submit" value="submit" className="btn btn-primary" >Submit</button>
                 </form>
             </div>
