@@ -44,7 +44,7 @@ export default class Login extends Component {
         //     console.log(this.state.type)
             this.props.setCurrentUser(foundUser)
                 if(this.state.type === "student"){
-                    this.props.history.push('/student')
+                    this.props.history.push('/stdprofile')
                 }else if (this.state.type === "admin"){
                     this.props.history.push('/admin')
                 }

@@ -7,17 +7,22 @@ export default class StudentHistory extends Component {
     
     state={
         words: [],
+        drawed: [],
         right: [],
         wrong: []
     }
 
     componentDidMount(){
         this.fetchLessonWords();
+        // console.log(this.props.currentUser)
     }
 
     componentDidUpdate(){
-        // console.log(this.state.words);
-        console.log(this.state.right, this.state.wrong);
+        console.log("words state", this.state.words);
+        console.log("right-->", this.state.right);
+        console.log("wrong-->", this.state.wrong);
+        console.log("drawed-->", this.state.drawed);
+        this.printWrongWords();
     }
 
     fetchLessonWords = () => {
@@ -39,45 +44,79 @@ export default class StudentHistory extends Component {
         fetch('http://localhost:3001/guessrights')
         .then(resp => resp.json())
         .then(data => {
-            let rightWords = data.filter(word => word.student_id === this.props.currentUser.id);
-            rightWords = rightWords.filter(word => word.lesson_id === this.props.currentUser.lesson_id);
+            // console.log(data);
+            let lessonGuessedWords = data.filter(word => word.lesson_id === this.props.currentUser.lesson_id);
+            let rightWords = lessonGuessedWords.filter(word => word.student_id === this.props.currentUser.id);
+            // rightWords = rightWords.filter(word => word.lesson_id === this.props.currentUser.lesson_id);
+            console.log("rightWords--->", rightWords);
+
             let right = [];
             rightWords.forEach(wordObj=>{
                 this.state.words.forEach(word=>{
-                    if(wordObj.id === word.id){
-                        right.push(word.text);
+                    if(wordObj.word_id === word.id){
+                        if(!right.includes(word.text)){
+                            right.push(word.text);
+                        }
                     }
                 })   
             })
+            console.log("right", right);
+
             let allWords = this.state.words.map(word => word.text);
-            console.log('all', allWords);
+            let drawedWords = [];
+            let drawed = lessonGuessedWords.filter(word => word.drawer_id === this.props.currentUser.id);
+            drawed.forEach(wordObj=>{
+                this.state.words.forEach(word=>{
+                    if(wordObj.word_id === word.id){
+                        if(!drawedWords.includes(word.text)){
+                            drawedWords.push(word.text);
+                        }
+                    }
+                })   
+            })
+            console.log('drawed', drawedWords);
+
             let wrongWords = [];
             allWords.forEach(word=>{
-                if(!right.includes(word)){
+                if(!right.includes(word) && !drawedWords.includes(word)){
                     wrongWords.push(word);
                 }
             })
             this.setState({
                 right: right,
-                wrong: wrongWords
+                wrong: wrongWords,
+                drawed: drawedWords 
             })
         })
         
     }
 
     printWrongWords = () => {
-        let div = document.getElementsByClassName('history-inner')[0];
-        this.state.wrongWords.forEach(word => {
-            div.innerText += `<p>${word}</p>`
-        })  
+        let div = document.getElementsByClassName('history-inner')[1];
+        let drawedDiv = document.getElementsByClassName('history-inner')[0];
+        div.innerHTML = "";
+        drawedDiv.innerHTML = "";
+
+        if(this.state.wrong.length === 0 ){
+            div.innerHTML += `<p>Good job!!!! You got all the word</p>`
+        }else{
+            this.state.wrong.forEach(word => {
+                div.innerHTML += `<p>${word}</p>`
+            })  
+        }
+
+        this.state.drawed.forEach(word => {
+            drawedDiv.innerHTML += `<p>${word}</p>`
+        })
     }
 
     render() {
         return( 
             <div className="std-history">
+                You drawed:
+                <div className="history-inner"></div>
                 Study List:
-                <div className="history-inner">
-                </div>
+                <div className="history-inner"></div>
             </div>
         )
 

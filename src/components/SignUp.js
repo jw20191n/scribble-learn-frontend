@@ -39,7 +39,7 @@ export default class SignUp extends Component {
                 .then(data=> {
                     console.log(data);
                     this.props.setCurrentUser(data)
-                    this.props.history.push('/student')
+                    this.props.history.push('/stdprofile')
                 })
             }else{
                 fetch('http://localhost:3001/admins',{

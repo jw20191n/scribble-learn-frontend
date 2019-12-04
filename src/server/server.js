@@ -134,7 +134,8 @@ io.on('connection', function (socket) {
             }else{
                 usersGuessed.push(data.user);
                 wordGuessed[currentWord] = usersGuessed;
-                io.emit('guessright', { user: data.user, correct: true, word: currentWord})
+                io.emit('guessright', { user: data.user, drawer: currentDrawer, correct: true, word: currentWord})
+
 
                 //user who guess right got 10 points
                 userScore[data.user.username] += 10;

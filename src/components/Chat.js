@@ -82,30 +82,38 @@ export default class Chat extends Component {
 
 
     sendGuessright = (data) => {
-        console.log('in here');
-        if(data.user === this.props.currentUser){
-            let foundWord = {};
+        let word = data.word
+        // console.log(data.user.id === this.props.currentUser.id);
+        if(data.user.id === this.props.currentUser.id){
+            this.createGuessrights(data.user, word, data.drawer);
+        } 
+    }
+
+
+    createGuessrights = (user, word, drawer) => {
+        let foundWord = {};
         
-            fetch('http://localhost:3001/words')
-            .then(resp => resp.json())
-            .then(resp => {
-                foundWord = resp.find(obj => obj.text === data.word )
-                console.log(foundWord.text);
-                fetch('http://localhost:3001/guessrights',{
-                    method: "POST",
-                    headers:{
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        student_id: data.user.id,
-                        word_id: foundWord.id,
-                        lesson_id: 1
-                    })
-                }).then(resp => resp.json())
-                .then(data => console.log(data))
-            })
-        }   
+        fetch('http://localhost:3001/words')
+        .then(resp => resp.json())
+        .then(resp => {
+            // console.log(resp);
+            foundWord = resp.find(obj => obj.text === word && obj.lesson_id === this.props.currentUser.lesson_id)
+            // console.log(foundWord);
+            fetch('http://localhost:3001/guessrights',{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    student_id: user.id,
+                    word_id: foundWord.id,
+                    drawer_id: drawer.id,
+                    lesson_id: this.props.currentUser.lesson_id
+                })
+            }).then(resp => resp.json())
+            .then(data => console.log(data))
+        })
     }
     
     render() {
