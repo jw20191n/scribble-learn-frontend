@@ -7,6 +7,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import AdminPage from './components/AdminPage';
 import StudentPage from './components/StudentPage';
+import StudentProfile from './components/studentProfile';
 import CreateLesson from './components/CreateLesson';
 import Lessons from './components/Lessons';
 import Canvas from './components/Canvas';
@@ -41,6 +42,7 @@ class App extends React.Component {
             <Route exact path="/login" render={(routerProps) => <Login setCurrentUser={this.setCurrentUser} signOut={this.signOut} {...routerProps}/> } /> 
             <Route exact path='/signup' render={(routerProps) => <SignUp {...routerProps} setCurrentUser={this.setCurrentUser}/> } /> 
             <Route exact path='/student' render={(routerProps) => <StudentPage currentUser={this.state.currentUser} {...routerProps}  setCurrentUser={this.setCurrentUser} /> } /> 
+            <Route exact path='/stdprofile' render={(routerProps) => <StudentProfile currentUser={this.state.currentUser} {...routerProps} /> } /> 
             <Route exact path='/admin' render={() => <AdminPage currentUser={this.state.currentUser}/> } /> 
             <Route exact path='/createlesson' render={(routerProps) => <CreateLesson currentUser={this.state.currentUser} {...routerProps}/> } /> 
             <Route exact path='/lessons' render={(routerProps) => <Lessons currentUser={this.state.currentUser} {...routerProps}/> } /> 

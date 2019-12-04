@@ -16,26 +16,26 @@ export default class CreateLesson extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        if(this.props.currentUser){
-            fetch('http://localhost:3001/lessons',{
-                method: "POST",
-                headers:{
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    name: this.state.name,
-                    passcode: this.state.passcode,
-                    description: this.state.description,
-                    admin_id: this.props.currentUser.id,
-                })
-            }).then(resp => resp.json())
-            .then(data => {
-                console.log(data);
-                this.props.history.push('/admin');
-                alert('you successfully created the class!')
-            })
-        }
+        // if(this.props.currentUser){
+        //     fetch('http://localhost:3001/lessons',{
+        //         method: "POST",
+        //         headers:{
+        //             "Content-Type": "application/json",
+        //             "Accept": "application/json"
+        //         },
+        //         body: JSON.stringify({
+        //             name: this.state.name,
+        //             passcode: this.state.passcode,
+        //             description: this.state.description,
+        //             admin_id: this.props.currentUser.id,
+        //         })
+        //     }).then(resp => resp.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         this.props.history.push('/admin');
+        //         alert('you successfully created the class!')
+        //     })
+        // }
     }
 
     render() {

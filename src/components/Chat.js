@@ -16,6 +16,7 @@ export default class Chat extends Component {
             socket = io(':3002');
             socket.on('chat', this.printChat);
             socket.on('current_user', this.setDrawer);
+            socket.on('guessright', this.sendGuessright);
         } 
     }
 
@@ -79,6 +80,33 @@ export default class Chat extends Component {
         }   
     }
 
+
+    sendGuessright = (data) => {
+
+        if(data.user === this.props.currentUser){
+            let foundWord = {};
+        
+            fetch('http://localhost:3001/words')
+            .then(resp => resp.json())
+            .then(resp => {
+                foundWord = resp.find(obj => obj.text === data.word )
+                // console.log(foundWord.text);
+                fetch('http://localhost:3001/guessrights',{
+                    method: "POST",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        student_id: data.user.id,
+                        word_id: foundWord.id,
+                        lesson_id: 1
+                    })
+                }).then(resp => resp.json())
+                .then(data => console.log(data))
+            })
+        }   
+    }
     
     render() {
         return (

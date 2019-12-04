@@ -26,6 +26,7 @@ let userScore = {}; //{ username: score }
 let popup = true;
 let usersInGame = [];
 
+
 //set first currentWord
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let arrayIndex = words.indexOf(currentWord);
@@ -77,6 +78,7 @@ io.on('connection', function (socket) {
                 io.emit('time_left', { seconds: seconds })
             } else if(seconds === 0 ){ 
                 sessionEnd = true;
+
                 usersGuessed = [];
                 //clear canvas
                 line_history = [];
@@ -132,6 +134,7 @@ io.on('connection', function (socket) {
             }else{
                 usersGuessed.push(data.user);
                 wordGuessed[currentWord] = usersGuessed;
+                io.emit('guessright', { user: data.user, correct: true, word: currentWord})
 
                 //user who guess right got 10 points
                 userScore[data.user.username] += 10;
