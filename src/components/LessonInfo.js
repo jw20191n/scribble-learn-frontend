@@ -80,7 +80,7 @@ export default class LessonInfo extends Component {
                         <h5>Class Name:{this.props.lesson.name}</h5>
                         <div>Words:<div className="lesson-info"></div>
                         </div>
-                        <p>Secred Code: {this.props.lesson.id}</p>
+                        <p>Secret Code: {this.props.lesson.id}</p>
                     </div>
                     <form className="lessonForm" onSubmit={this.addWord}>
                         <label>add word to class</label>
