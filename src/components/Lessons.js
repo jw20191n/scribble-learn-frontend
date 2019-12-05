@@ -28,14 +28,12 @@ export default class CreateLesson extends Component {
         }
     }
 
-
-
     printLessons = () => {
         if(this.state.lessons.length>0){
             return this.state.lessons.map((lesson,i) => { 
                 return(
-                    <div className="card" key={i}>
-                        <p>Name: {lesson.name}</p>
+                    <div className="list-group-item" key={i}>
+                        <h4>{lesson.name}</h4>
                         {/* <button type="button" className="btn btn-secondary" onClick={()=>this.openDetail(lesson.id)}>detail</button> */}
                         <LessonDetail id={lesson.id}/>
                     </div>
@@ -48,7 +46,11 @@ export default class CreateLesson extends Component {
     
     render() {
         return(
-            this.printLessons()
+            <div className="container">
+                <div className="list-group">
+                    {this.printLessons()}
+                </div>
+            </div>
         )
     }
 }

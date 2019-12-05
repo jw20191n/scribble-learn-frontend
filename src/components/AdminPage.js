@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import CreateLesson from './CreateLesson';
+import LessonInfo from './LessonInfo';
 
 
 export default class AdminPage extends Component {
     
     state = { 
-        username:''
+        username:'',
+        lesson: null
     }
 
     componentDidMount(){
@@ -16,6 +18,18 @@ export default class AdminPage extends Component {
         }
     }
 
+    setLesson = (data) => {
+        this.setState({
+            lesson: data
+        })
+    }
+
+    showLessonInfo = () =>{
+        if(this.state.lesson){
+            return  <LessonInfo lesson={this.state.lesson}/>
+        }
+    }
+
     render() {
 
         if(this.props.currentUser){
@@ -23,7 +37,11 @@ export default class AdminPage extends Component {
                 <div className="admin-pg">
                     <div className="admin-text">
                         <h1>Welcome, {this.props.currentUser.username}!</h1>
-                        <CreateLesson currentUser={this.props.currentUser}/>
+                        <CreateLesson currentUser={this.props.currentUser} setLesson={this.setLesson}/>
+                        {
+                          this.showLessonInfo()  
+                        }
+                       
                     </div>
                 </div>
             )

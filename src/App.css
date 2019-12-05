@@ -318,6 +318,20 @@ nav{
   padding-top:15%;
 }
 
+.lesson-card{
+  width: 400px;
+  height: auto;
+  margin: auto;
+  margin-top: 5%;
+  text-align: left;
+}
+
+.large{
+  font-size: 18px;
+  font-weight: normal;
+  margin: 5px;
+}
+
 @media only screen and (max-width: 1020px) {
   #img4{
     margin-top: 25%;

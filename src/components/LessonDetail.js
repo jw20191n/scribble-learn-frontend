@@ -36,7 +36,6 @@ export default class LessonDetail extends Component {
     printWords = () => {
         let div = document.getElementById(this.props.id);
         // console.log(this.props.id, this.state.words);
-        div.innerHTML = "";
 
         if(this.state.words.length>0){
             // console.log(this.props.id, this.state.words);
@@ -72,14 +71,12 @@ export default class LessonDetail extends Component {
 
         return(
             <div>
-                <div>Words:
-                    <div className="lesson-info" id={this.props.id}></div>
-                </div>
-                <form className="lessonForm" onSubmit={this.addWord}>
+                <div className="lesson-info" id={this.props.id}> Words:</div>
+                {/* <form className="lessonForm" onSubmit={this.addWord}>
                     <label>add word to class</label>
                     <input type="text" name="word" className="form-control" placeholder="please type in word you want to add" onChange={this.handleChange} value={this.state.word}/>
                     <button type="submit" value="submit" className="btn btn-primary" >Submit</button>
-                </form>
+                </form> */}
             </div>
         )
     }

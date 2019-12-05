@@ -36,6 +36,7 @@ export default class CreateLesson extends Component {
                 this.setState({
                     name: ""
                 })
+                this.props.setLesson(data)
             })
         }
     }
