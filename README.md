@@ -4,14 +4,20 @@
 Scribble Learn is a drawing and guessing game aiming to assist EFL learners studying English vocabularies. 
 <img src="src/gif5.gif" width="20%" align="right" >
 
+<br/>
+
 ## Problem Statement:bangbang:
 Vocabulary plays a vital role in learning English (Huang, Yang, Chiang, & Su, 2015). However, researches showed that English as Foreign Language (EFL) students tend to have difficulties with vocabulary learning (Ghazal, 2007; Yang & Dai, 2011). Scribble Learn is a drawing and guessing game. This game aims to serve as an assisting tool to increase class engagement and motivate learners in vocabulary learning by engaging them in an enjoyable and satisfying game involving deep processing.
+
+<br/>
 
 ## [video demo](https://youtu.be/s9RY32CvFbw):play_or_pause_button:
 
 <p align="middle">
     <img src="src/screenshot3.gif" width="70%" >
 </p>
+
+<br/>
 
 ## How to play:question:
 1. Teachers set up a game with a list of words aligned with the English course curriculum. 
@@ -31,11 +37,15 @@ Vocabulary plays a vital role in learning English (Huang, Yang, Chiang, & Su, 20
     <img src="src/screenshot1.gif" width="70%" >
 </p>
 
+<br/>
+
 ## Technology:hammer:
 * Programmed drawing games with HTML Canvas that allow users to draw with the cursor on the webpage.
 * Incorporated Node.js and Socket.io to allow multiple players take turns drawing and chatting through the server.
 * Built and designed the database schema with Rails and ActiveRecord to store user information and gameresults. 
 * DesigneduserinterfacewithReact.js,BootstrapandCustomCSS.
+
+<br/>
 
 ## Credits
 * The gifs in the game are made by artist [Jon Burgerman](https://www.jonburgerman.com/info). </br>
