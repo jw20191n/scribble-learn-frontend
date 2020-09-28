@@ -50,3 +50,6 @@ Vocabulary plays a vital role in learning English (Huang, Yang, Chiang, & Su, 20
 ## Credits
 * The gifs in the game are made by artist [Jon Burgerman](https://www.jonburgerman.com/info). </br>
 [<img src="src/gif8.gif" width="20%">](https://www.jonburgerman.com/info) He has more fantastic gif and artworks on his website.
+
+## Resources
+* I referenced this [blog](http://code-and.coffee/post/2015/collaborative-drawing-canvas-node-websocket/) for how to create collaborative drawing canvas. 
