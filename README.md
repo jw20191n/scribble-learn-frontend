@@ -52,4 +52,4 @@ Vocabulary plays a vital role in learning English (Huang, Yang, Chiang, & Su, 20
 [<img src="src/gif8.gif" width="20%">](https://www.jonburgerman.com/info) He has more fantastic gif and artworks on his website.
 
 ## Resources
-* I referenced this [blog](http://code-and.coffee/post/2015/collaborative-drawing-canvas-node-websocket/) for how to create collaborative drawing canvas. 
+* I referenced the blog post on [code and coffee](http://code-and.coffee/post/2015/collaborative-drawing-canvas-node-websocket/) for how to create collaborative drawing canvas. 
